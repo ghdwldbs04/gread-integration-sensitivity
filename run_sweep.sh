@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 # 반응항 x 적분 설정 전체 스윕. GREAD/src 에서 실행.  끊겨도 다시 실행하면 끝난 설정은 건너뜀.
+# 순서: 고정 스텝(Euler, RK4) 전부 먼저 -> dopri5는 느슨한 tol부터 (빡빡한 tol은 NFE가 커서 오래 걸릴 수 있음)
 set -u
 cd "$(dirname "$0")"
 OUT=../results/sweep.jsonl
 DONE=../results/done
 mkdir -p "$DONE"
-SPLITS="${SPLITS:-0 1 2}"
+SPLITS="${SPLITS:-0 1 2 3 4 5 6 7 8 9}"
 REACTIONS="${REACTIONS:-bspm allen-cahn diffusion}"
 
 run() {  # $1 reaction, $2 method, $3 value(step 또는 tol)
@@ -21,6 +22,8 @@ run() {  # $1 reaction, $2 method, $3 value(step 또는 tol)
 for r in $REACTIONS; do
   for h in 0.1 0.25 0.5 1.0 1.5 2.0; do run "$r" euler "$h"; done
   for h in 0.25 0.5 1.0 2.0;         do run "$r" rk4   "$h"; done
-  for t in 1e1 1e3 1e5;              do run "$r" dopri5 "$t"; done
+done
+for t in 1e5 1e3 1e1; do
+  for r in $REACTIONS; do run "$r" dopri5 "$t"; done
 done
 echo "ALL DONE"
