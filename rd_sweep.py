@@ -30,6 +30,18 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
+# torch>=2.6은 torch.load 기본값이 weights_only=True라서 PyG 2.3.1의 데이터셋 캐시 로드가 실패한다.
+# 로드 대상은 PyG가 직접 만든 로컬 캐시(Planetoid)뿐이므로 이전 동작(weights_only=False)으로 되돌린다.
+_torch_load = torch.load
+
+
+def _torch_load_compat(*args, **kwargs):
+    kwargs.setdefault("weights_only", False)
+    return _torch_load(*args, **kwargs)
+
+
+torch.load = _torch_load_compat
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
