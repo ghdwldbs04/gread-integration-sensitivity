@@ -83,6 +83,8 @@ def build_opt(a):
     opt["max_nfe"] = a.max_nfe
     if a.epoch is not None:
         opt["epoch"] = a.epoch
+    if getattr(a, "time", None) is not None:
+        opt["time"] = a.time
     opt["no_early"] = True
     opt["adjoint"] = False
     opt["wandb"] = False
@@ -216,6 +218,7 @@ def main():
     p.add_argument("--tol_scale", type=float, default=1.0)
     p.add_argument("--max_nfe", type=int, default=5000)
     p.add_argument("--epoch", type=int, default=None)
+    p.add_argument("--time", type=float, default=None, help="적분 종료 시간 T (기본: best params)")
     p.add_argument("--splits", type=int, nargs="+", default=[0, 1, 2])
     p.add_argument("--out", default=os.path.join(ROOT_DIR, "results", "sweep.jsonl"))
     p.add_argument("--tag", default="")

@@ -1,0 +1,40 @@
+  warnings.warn(msg)
+  uniform(self.b_W, a=-1, b=1)
+== A. GREAD-AC 설정별 상태 (10 splits)
+dopri5       10  {'solver_error': 10}  diverge_epoch=(8, 9, 10)  {'underflow in dt 9.5798165057691e-17': 1, 'underflow in dt 1.8015922250753e-16': 1, 'underflow in dt 1.0149219865430385e-16': 1, 'underflow in dt 1.0668844027147895e-16': 1, 'underflow in dt 1.8031621847212587e-16': 1, 'underflow in dt 8.822595044710963e-17': 1, 'underflow in dt 8.535679903056619e-17': 1, 'underflow in dt 2.1821999489118342e-16': 1, 'underflow in dt 8.613253441905025e-17': 1, 'underflow in dt 1.6820253591634543e-16': 1}
+dopri5     1000  {'solver_error': 10}  diverge_epoch=(8, 9, 10)  {'underflow in dt nan': 10}
+dopri5   100000  {'solver_error': 10}  diverge_epoch=(1, 1, 1)  {'underflow in dt nan': 10}
+euler       0.1  {'nan': 10}  diverge_epoch=(8, 9, 10)  {}
+euler      0.25  {'nan': 10}  diverge_epoch=(8, 9, 11)  {}
+euler       0.5  {'nan': 10}  diverge_epoch=(9, 11, 13)  {}
+euler         1  {'ok': 10}  diverge_epoch=-  {}
+euler       1.5  {'ok': 10}  diverge_epoch=-  {}
+euler         2  {'ok': 10}  diverge_epoch=-  {}
+rk4        0.25  {'nan': 10}  diverge_epoch=(8, 9, 10)  {}
+rk4         0.5  {'nan': 10}  diverge_epoch=(8, 9, 10)  {}
+rk4           1  {'nan': 10}  diverge_epoch=(8, 9, 11)  {}
+rk4           2  {'nan': 10}  diverge_epoch=(5, 6, 8)  {}
+
+== B. 초기화 직후 H(0)에서의 궤적 max|H(t)| (split 0, seed 0)
+torch.Size([2485])
+tensor(1192)
+torch.Size([2485])
+tensor(796)
+torch.Size([2485])
+tensor(497)
+torch.Size([2485, 1433])
+T=3.790  hidden=64  b<0 채널 38개  |x0| max=0.298 mean=0.052
+스칼라 근사 폭주시간 t* = 1/(2|b|x0^2): min=6.6082  하위1%=24.9681  t*<T 인 (노드,채널) 비율=0.0000
+[rk4 h=0.05 (기준해)] NFE=304  첫 폭주(>1e6 또는 inf) t=-
+    0.00:3.0e-01  0.25:3.0e-01  0.51:3.5e-01  0.76:4.0e-01  1.01:4.6e-01  1.26:5.3e-01  1.52:6.0e-01  1.77:6.7e-01  2.02:7.4e-01  2.27:8.1e-01  2.53:8.6e-01  2.78:9.0e-01  3.03:9.3e-01  3.28:9.5e-01  3.54:9.7e-01  3.79:9.8e-01
+[rk4 h=0.5] NFE=32  첫 폭주(>1e6 또는 inf) t=-
+    0.00:3.0e-01  0.50:3.5e-01  1.00:4.6e-01  1.50:6.0e-01  2.00:7.4e-01  2.50:8.5e-01  3.00:9.3e-01  3.50:9.7e-01  3.79:9.8e-01
+[euler h=0.1] NFE=38  첫 폭주(>1e6 또는 inf) t=-
+    0.00:3.0e-01  0.10:2.9e-01  0.20:2.9e-01  0.30:3.1e-01  0.40:3.3e-01  0.50:3.5e-01  0.60:3.6e-01  0.70:3.8e-01  0.80:4.0e-01  0.90:4.3e-01  1.00:4.5e-01  1.10:4.8e-01  1.20:5.0e-01  1.30:5.3e-01  1.40:5.6e-01  1.50:5.9e-01  1.60:6.1e-01  1.70:6.4e-01  1.80:6.7e-01  1.90:7.0e-01  2.00:7.3e-01  2.10:7.5e-01  2.20:7.8e-01  2.30:8.1e-01  2.40:8.3e-01  2.50:8.5e-01  2.60:8.7e-01  2.70:8.9e-01  2.80:9.0e-01  2.90:9.2e-01  3.00:9.3e-01  3.10:9.4e-01  3.20:9.5e-01  3.30:9.6e-01  3.40:9.6e-01  3.50:9.7e-01  3.60:9.8e-01  3.70:9.8e-01  3.79:9.8e-01
+[euler h=0.5] NFE=8  첫 폭주(>1e6 또는 inf) t=-
+    0.00:3.0e-01  0.50:3.4e-01  1.00:4.3e-01  1.50:5.5e-01  2.00:7.0e-01  2.50:8.3e-01  3.00:9.3e-01  3.50:9.9e-01  3.79:9.9e-01
+[euler h=1] NFE=4  첫 폭주(>1e6 또는 inf) t=-
+    0.00:3.0e-01  1.00:4.1e-01  2.00:6.5e-01  3.00:9.2e-01  3.79:1.0e+00
+[euler h=2] NFE=2  첫 폭주(>1e6 또는 inf) t=-
+    0.00:3.0e-01  2.00:5.7e-01  3.79:1.1e+00
+[dopri5 tol x1e5] 실패 NFE=62: AssertionError: underflow in dt nan

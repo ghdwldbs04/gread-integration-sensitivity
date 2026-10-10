@@ -1,0 +1,4 @@
+T=0.25  ok 10/10  acc 78.43+-2.30  DE 1.6753  status {'ok': 10}
+T=0.5   ok 10/10  acc 80.82+-1.33  DE 18.0740  status {'ok': 10}
+T=1.0   ok 0/10  acc nan+-0.00  DE nan  status {'nan': 10}
+T=2.0   ok 0/10  acc nan+-0.00  DE nan  status {'nan': 10}
