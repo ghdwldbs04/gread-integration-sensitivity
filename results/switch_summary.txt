@@ -1,0 +1,5 @@
+K=0   완주 0/10  acc(rk4) nan+-0.00  fail_epoch [8, 8, 8, 9, 9, 9, 9, 10, 10, 10]  REF finite 10/10
+K=1   완주 0/10  acc(rk4) nan+-0.00  fail_epoch [8, 8, 8, 9, 9, 10, 10, 10, 10, 11]  REF finite 10/10
+K=5   완주 0/10  acc(rk4) nan+-0.00  fail_epoch [8, 9, 9, 10, 10, 10, 10, 10, 11, 13]  REF finite 10/10
+K=20  완주 0/10  acc(rk4) nan+-0.00  fail_epoch [21, 21, 21, 21, 21, 21, 21, 21, 21, 22]  REF finite 1/10
+K=50  완주 0/10  acc(rk4) nan+-0.00  fail_epoch [51, 51, 51, 51, 51, 51, 52, 53, 55, 68]  REF finite 4/10
