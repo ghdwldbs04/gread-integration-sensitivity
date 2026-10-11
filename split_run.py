@@ -51,6 +51,7 @@ p.add_argument("--step_size", type=float, default=1.0)
 p.add_argument("--splits", type=int, nargs="+", default=list(range(10)))
 p.add_argument("--ref_h", type=float, default=0.05)
 p.add_argument("--out", default="../results/split.jsonl")
+p.add_argument("--tag", default="")
 a = p.parse_args()
 
 ns = argparse.Namespace(dataset=a.dataset, reaction="allen-cahn", method="euler", step_size=a.step_size,
@@ -59,6 +60,12 @@ opt = R.build_opt(ns)
 dev = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 opt["device"] = dev
 ds = R.get_dataset(opt, os.path.join(R.ROOT_DIR, "data"), opt["not_lcc"])
+if opt.get("hetero_SL"):  # rd_sweep.py 와 같은 이질 그래프 전처리
+    from torch_geometric.utils import add_remaining_self_loops
+    ds.data.edge_index, _ = add_remaining_self_loops(ds.data.edge_index)
+if opt.get("hetero_undir"):
+    from torch_geometric.utils import to_undirected
+    ds.data.edge_index = to_undirected(ds.data.edge_index)
 
 holder = {}
 _GNN = R.GNN
@@ -82,7 +89,7 @@ for s in a.splits:
         (_, _, te), _, finite = R.evaluate(m, ds.data.to(dev))
         rec.update(ref_finite=finite, ref_test_acc=te if finite else None)
     rec.update(dataset=a.dataset, reaction="allen-cahn" + ("+bpos" if a.beta_pos else ""), method="split",
-               step_size=a.step_size, ref_h=a.ref_h, wall_sec=time.time() - t0)
+               step_size=a.step_size, ref_h=a.ref_h, tag=a.tag, wall_sec=time.time() - t0)
     os.makedirs(os.path.dirname(a.out), exist_ok=True)
     with open(a.out, "a", encoding="utf-8") as fo:
         fo.write(json.dumps(rec, ensure_ascii=False, default=str) + "\n")
