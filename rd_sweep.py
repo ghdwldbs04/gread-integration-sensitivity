@@ -85,6 +85,11 @@ def build_opt(a):
         opt["epoch"] = a.epoch
     if getattr(a, "time", None) is not None:
         opt["time"] = a.time
+    if getattr(a, "beta_pos", False):
+        # 반응 계수 부호 제약: b_c = softplus(w_c) > 0  (불안정 평형 제거)
+        from function_gread import ODEFuncGread
+        ODEFuncGread.set_Beta = lambda self, T=None: torch.diag(torch.nn.functional.softplus(self.b_W))
+        opt["beta_pos"] = True
     opt["no_early"] = True
     opt["adjoint"] = False
     opt["wandb"] = False
@@ -219,6 +224,7 @@ def main():
     p.add_argument("--max_nfe", type=int, default=5000)
     p.add_argument("--epoch", type=int, default=None)
     p.add_argument("--time", type=float, default=None, help="적분 종료 시간 T (기본: best params)")
+    p.add_argument("--beta_pos", action="store_true", help="반응 계수를 softplus로 양수 제약")
     p.add_argument("--splits", type=int, nargs="+", default=[0, 1, 2])
     p.add_argument("--out", default=os.path.join(ROOT_DIR, "results", "sweep.jsonl"))
     p.add_argument("--tag", default="")
@@ -227,7 +233,17 @@ def main():
     opt = build_opt(a)
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     opt["device"] = device
-    dataset = get_dataset(opt, os.path.join(ROOT_DIR, "data"), opt["not_lcc"])
+    def load_ds():
+        ds = get_dataset(opt, os.path.join(ROOT_DIR, "data"), opt["not_lcc"])
+        if opt.get("hetero_SL"):
+            from torch_geometric.utils import add_remaining_self_loops
+            ds.data.edge_index, _ = add_remaining_self_loops(ds.data.edge_index)
+        if opt.get("hetero_undir"):
+            from torch_geometric.utils import to_undirected
+            ds.data.edge_index = to_undirected(ds.data.edge_index)
+        return ds
+
+    dataset = load_ds()
 
     applied = {k: opt[k] for k in ["reaction_term", "beta_diag", "method", "step_size", "tol_scale",
                                     "time", "block", "hidden_dim", "lr", "decay", "epoch", "alpha_dim",
@@ -240,8 +256,10 @@ def main():
     os.makedirs(os.path.dirname(a.out), exist_ok=True)
     for s in a.splits:
         t0 = time.time()
+        if a.dataset == "Citeseer" and s != a.splits[0]:
+            dataset = load_ds()  # geom-gcn Citeseer split은 LCC 여부가 섞여 있어 원 코드처럼 매 split 다시 로드
         rec = run_one(copy.deepcopy(opt), dataset, s, device)
-        rec.update(dataset=a.dataset, reaction=a.reaction, method=a.method,
+        rec.update(dataset=a.dataset, reaction=a.reaction + ("+bpos" if a.beta_pos else ""), method=a.method,
                    step_size=a.step_size if a.method != "dopri5" else None,
                    tol_scale=a.tol_scale if a.method == "dopri5" else None,
                    tag=a.tag, wall_sec=time.time() - t0, device=str(device),

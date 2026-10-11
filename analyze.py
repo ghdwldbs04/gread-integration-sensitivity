@@ -19,6 +19,7 @@ os.makedirs(outdir, exist_ok=True)
 rows = [json.loads(l) for l in open(src, encoding="utf-8") if l.strip()]
 df = pd.DataFrame(rows)
 df = df[df["tag"].fillna("") == ""] if "tag" in df else df
+import warnings; warnings.filterwarnings("ignore")
 df["setting"] = np.where(df["method"] == "dopri5",
                          "tol×" + df["tol_scale"].map(lambda v: f"{v:g}" if pd.notna(v) else ""),
                          "h=" + df["step_size"].map(lambda v: f"{v:g}" if pd.notna(v) else ""))
@@ -26,7 +27,8 @@ df["sval"] = np.where(df["method"] == "dopri5", df["tol_scale"], df["step_size"]
 df["ok"] = df["status"] == "ok"
 df["test_pct"] = df["test_acc"] * 100
 
-RX = {"bspm": "GREAD-BS", "allen-cahn": "GREAD-AC", "diffusion": "Diffusion", "fisher": "GREAD-F", "zeldovich": "GREAD-Z"}
+RX = {"bspm": "BS", "allen-cahn": "AC", "fisher": "F", "zeldovich": "Z", "diffusion": "Diffusion",
+      "allen-cahn+bpos": "AC (b>0)", "fisher+bpos": "F (b>0)", "zeldovich+bpos": "Z (b>0)", "bspm+bpos": "BS (b>0)"}
 MO = ["euler", "rk4", "dopri5"]
 
 # 중복 실행(같은 설정·split)이 있으면 마지막 것만 사용
@@ -63,7 +65,7 @@ tab["cell"] = tab.apply(fmt, axis=1)
 lines = []
 for ds, t in tab.groupby("dataset"):
     piv = t.pivot_table(index=["method", "sval", "setting"], columns="reaction", values="cell", aggfunc="first")
-    piv = piv[[c for c in RX if c in piv.columns]].rename(columns=RX)
+    piv = piv[[c for c in RX if c in piv.columns] + [c for c in piv.columns if c not in RX]].rename(columns=RX)
     piv = piv.reset_index().drop(columns="sval")
     piv["method"] = pd.Categorical(piv["method"], MO, ordered=True)
     lines.append(f"## {ds} — 테스트 정확도(%) mean±std over splits\n")
@@ -88,7 +90,8 @@ for ds, t in tab.groupby("dataset"):
 open(f"{outdir}/tables.md", "w", encoding="utf-8").write("\n".join(lines))
 
 # ---------- 그림 ----------
-colors = {"bspm": "#2a6fdb", "allen-cahn": "#d9480f", "diffusion": "#6c757d", "fisher": "#2b8a3e", "zeldovich": "#862e9c"}
+colors = {"bspm": "#2a6fdb", "allen-cahn": "#d9480f", "diffusion": "#6c757d", "fisher": "#2b8a3e", "zeldovich": "#862e9c",
+          "allen-cahn+bpos": "#f08c00", "fisher+bpos": "#69db7c", "zeldovich+bpos": "#da77f2"}
 for ds, t in tab.groupby("dataset"):
     fig, axes = plt.subplots(1, 3, figsize=(12, 3.4))
     for ax, m in zip(axes, MO):
