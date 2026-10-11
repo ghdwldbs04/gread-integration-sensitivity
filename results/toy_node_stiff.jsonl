@@ -3,3 +3,28 @@
 {"kind": "cubic+", "method": "rk4", "h": 0.25, "seed": 2, "status": "nan", "fail_iter": 2}
 {"kind": "cubic+", "method": "rk4", "h": 0.25, "seed": 3, "status": "nan", "fail_iter": 1}
 {"kind": "cubic+", "method": "rk4", "h": 0.25, "seed": 4, "status": "nan", "fail_iter": 9}
+{"kind": "cubic+", "method": "rk4", "h": 0.1, "seed": 0, "status": "ok", "fail_iter": null, "acc": 0.9750000238418579, "ref_finite": true, "ref_acc": 0.9750000238418579, "x0max": 2.7022910118103027, "bmin": 0.34299159049987793}
+{"kind": "cubic+", "method": "rk4", "h": 0.1, "seed": 1, "status": "ok", "fail_iter": null, "acc": 0.9720000624656677, "ref_finite": true, "ref_acc": 0.9720000624656677, "x0max": 2.654756546020508, "bmin": 0.313412070274353}
+{"kind": "cubic+", "method": "rk4", "h": 0.1, "seed": 2, "status": "ok", "fail_iter": null, "acc": 0.9520000219345093, "ref_finite": true, "ref_acc": 0.9520000219345093, "x0max": 2.456650495529175, "bmin": 0.3365913927555084}
+{"kind": "cubic+", "method": "rk4", "h": 0.1, "seed": 3, "status": "ok", "fail_iter": null, "acc": 0.9760000705718994, "ref_finite": true, "ref_acc": 0.9760000705718994, "x0max": 2.733163833618164, "bmin": 0.30457502603530884}
+{"kind": "cubic+", "method": "rk4", "h": 0.1, "seed": 4, "status": "ok", "fail_iter": null, "acc": 0.968000054359436, "ref_finite": true, "ref_acc": 0.968000054359436, "x0max": 2.8339896202087402, "bmin": 0.31275153160095215}
+{"kind": "cubic+", "method": "dopri5", "h": 0.0, "seed": 0, "status": "ok", "fail_iter": null, "acc": 0.9690000414848328, "ref_finite": true, "ref_acc": 0.9690000414848328, "x0max": 2.763277053833008, "bmin": 0.3511318564414978}
+{"kind": "cubic+", "method": "dopri5", "h": 0.0, "seed": 1, "status": "ok", "fail_iter": null, "acc": 0.9780000448226929, "ref_finite": true, "ref_acc": 0.9780000448226929, "x0max": 2.614168882369995, "bmin": 0.31003403663635254}
+{"kind": "cubic+", "method": "dopri5", "h": 0.0, "seed": 2, "status": "ok", "fail_iter": null, "acc": 0.9770000576972961, "ref_finite": true, "ref_acc": 0.9770000576972961, "x0max": 2.3845205307006836, "bmin": 0.3326983153820038}
+{"kind": "cubic+", "method": "dopri5", "h": 0.0, "seed": 3, "status": "ok", "fail_iter": null, "acc": 0.9660000205039978, "ref_finite": true, "ref_acc": 0.9660000205039978, "x0max": 2.8783977031707764, "bmin": 0.3185460567474365}
+{"kind": "cubic+", "method": "dopri5", "h": 0.0, "seed": 4, "status": "ok", "fail_iter": null, "acc": 0.9760000705718994, "ref_finite": true, "ref_acc": 0.9760000705718994, "x0max": 2.8633999824523926, "bmin": 0.33110806345939636}
+{"kind": "cubic", "method": "rk4", "h": 0.25, "seed": 0, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.25, "seed": 1, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.25, "seed": 2, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.25, "seed": 3, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.25, "seed": 4, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.1, "seed": 0, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.1, "seed": 1, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.1, "seed": 2, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.1, "seed": 3, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.1, "seed": 4, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "dopri5", "h": 0.0, "seed": 0, "status": "solver_error", "fail_iter": 1}
+{"kind": "cubic", "method": "dopri5", "h": 0.0, "seed": 1, "status": "solver_error", "fail_iter": 1}
+{"kind": "cubic", "method": "dopri5", "h": 0.0, "seed": 2, "status": "solver_error", "fail_iter": 1}
+{"kind": "cubic", "method": "dopri5", "h": 0.0, "seed": 3, "status": "solver_error", "fail_iter": 1}
+{"kind": "cubic", "method": "dopri5", "h": 0.0, "seed": 4, "status": "solver_error", "fail_iter": 1}

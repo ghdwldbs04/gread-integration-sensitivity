@@ -1,2 +1,10 @@
 /home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch/cuda/__init__.py:789: UserWarning: Can't initialize NVML
   warnings.warn("Can't initialize NVML")
+T=4.0, d=32, iters=200, seeds=5
+model    solver        diverged    fail_iter  acc(own) REF finite  acc(REF)
+cubic+   rk4 h=0.25      5/5             1-9         -        0/0         -
+cubic+   rk4 h=0.1       0/5               -      96.9        5/5      96.9
+cubic+   dopri5 h=0.0    0/5               -      97.3        5/5      97.3
+cubic    rk4 h=0.25      5/5             1-1         -        0/0         -
+cubic    rk4 h=0.1       5/5             1-1         -        0/0         -
+cubic    dopri5 h=0.0    5/5             1-1         -        0/0         -

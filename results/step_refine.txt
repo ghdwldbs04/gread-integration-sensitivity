@@ -1,0 +1,24 @@
+== train mode (T=3.79, max|x0|=1.43)
+  euler h=1     steps=   4  first |H|>10 at t=-       max|H(T)|=2.58
+  euler h=0.5   steps=   8  first |H|>10 at t=-       max|H(T)|=6.14
+  euler h=0.25  steps=  16  first |H|>10 at t=3.5     max|H(T)|=1.11e+05
+  euler h=0.1   steps=  38  first |H|>10 at t=3.0999999046325684  max|H(T)|=inf
+  euler h=0.05  steps=  76  first |H|>10 at t=2.8499999046325684  max|H(T)|=inf
+  euler h=0.01  steps= 380  first |H|>10 at t=2.700000047683716  max|H(T)|=inf
+  rk4   h=1     steps=   4  first |H|>10 at t=3.0     max|H(T)|=inf
+  rk4   h=0.5   steps=   8  first |H|>10 at t=3.0     max|H(T)|=inf
+  rk4   h=0.25  steps=  16  first |H|>10 at t=2.75    max|H(T)|=inf
+  rk4   h=0.1   steps=  38  first |H|>10 at t=2.700000047683716  max|H(T)|=inf
+  rk4   h=0.01  steps= 380  first |H|>10 at t=2.6600000858306885  max|H(T)|=inf
+== eval mode (T=3.79, max|x0|=1.09)
+  euler h=1     steps=   4  first |H|>10 at t=-       max|H(T)|=1.07
+  euler h=0.5   steps=   8  first |H|>10 at t=-       max|H(T)|=1
+  euler h=0.25  steps=  16  first |H|>10 at t=-       max|H(T)|=1
+  euler h=0.1   steps=  38  first |H|>10 at t=-       max|H(T)|=0.999
+  euler h=0.05  steps=  76  first |H|>10 at t=-       max|H(T)|=0.999
+  euler h=0.01  steps= 380  first |H|>10 at t=-       max|H(T)|=0.999
+  rk4   h=1     steps=   4  first |H|>10 at t=-       max|H(T)|=0.999
+  rk4   h=0.5   steps=   8  first |H|>10 at t=-       max|H(T)|=0.999
+  rk4   h=0.25  steps=  16  first |H|>10 at t=-       max|H(T)|=0.999
+  rk4   h=0.1   steps=  38  first |H|>10 at t=-       max|H(T)|=0.999
+  rk4   h=0.01  steps= 380  first |H|>10 at t=-       max|H(T)|=0.999
