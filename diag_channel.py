@@ -69,8 +69,8 @@ with torch.no_grad():
     f.nfe = 0
     full = odeint(f, x0, t, method="rk4", options={"step_size": 0.01})
     hit_f, t_f = first_cross(full)
-    Bm = torch.diag(b)
-    react_only = odeint(lambda _t, x: (x - x ** 3) @ Bm, x0, t, method="rk4", options={"step_size": 0.01})
+    # 원소별 곱 (행렬곱 @diag(b)는 inf*0=NaN으로 같은 노드의 다른 채널을 오염시킴)
+    react_only = odeint(lambda _t, x: (x - x ** 3) * b, x0, t, method="rk4", options={"step_size": 0.01})
     hit_r, t_r = first_cross(react_only)
 
     bb = b.unsqueeze(0).expand_as(x0)
@@ -87,6 +87,12 @@ with torch.no_grad():
             print(f"[{name}] 폭주 원소 없음"); continue
         print(f"[{name}] 폭주 원소 {k}개 | 그중 b<0 {float((bb[hit] < 0).float().mean())*100:.1f}% | "
               f"|x0|>1 {float((ax0[hit] > 1).float().mean())*100:.1f}% | 첫 폭주 t={float(tt.min()):.3f}")
+    t0 = float(t_f.min())
+    early = hit_f & (t_f <= t0 + 1e-6)
+    print(f"[전체 GREAD 최초 폭주 원소(t={t0:.2f})] {int(early.sum())}개 | b<0 {float((bb[early] < 0).float().mean())*100:.1f}% | "
+          f"|x0|>1 {float((ax0[early] > 1).float().mean())*100:.1f}% | 해석해 t*<T 원소 포함 {int((early & torch.isfinite(pred) & (pred < T)).sum())}개")
+    first_nodes = early.any(1); seed_nodes = (torch.isfinite(pred) & (pred < T)).any(1)
+    print(f"[노드 단위] 최초 폭주 노드 {int(first_nodes.sum())}개 중 t*<T 원소를 가진 노드 {int((first_nodes & seed_nodes).sum())}개 / 그런 노드 전체 {int(seed_nodes.sum())}개")
     m = torch.isfinite(pred) & hit_r
     if m.any():
         err = (t_r[m] - pred[m]).abs()

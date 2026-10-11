@@ -26,6 +26,8 @@ p.add_argument("--T", type=float, default=4.0)
 p.add_argument("--d", type=int, default=32)
 p.add_argument("--lr", type=float, default=0.01)
 p.add_argument("--out", default="toy_node.jsonl")
+p.add_argument("--solvers", default="euler:1.0,euler:0.25,rk4:0.5")
+p.add_argument("--kinds", default="mlp,cubic,cubic+")
 a = p.parse_args()
 dev = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -58,13 +60,17 @@ class Model(nn.Module):
 
     def forward(self, x, method, h):
         t = torch.tensor([0.0, a.T], device=x.device)
-        hT = odeint(self.f, self.enc(x), t, method=method, options={"step_size": h})[-1]
+        if method == "dopri5":
+            hT = odeint(self.f, self.enc(x), t, method="dopri5", rtol=1e-5, atol=1e-6)[-1]
+        else:
+            hT = odeint(self.f, self.enc(x), t, method=method, options={"step_size": h})[-1]
         return hT, self.dec(hT)
 
 
-SOLVERS = [("euler", 1.0), ("euler", 0.25), ("rk4", 0.5)]
+SOLVERS = [(x.split(":")[0], float(x.split(":")[1])) for x in a.solvers.split(",")]
+KINDS = a.kinds.split(",")
 rows = []
-for kind in ("mlp", "cubic", "cubic+"):
+for kind in KINDS:
     for method, h in SOLVERS:
         for s in range(a.seeds):
             torch.manual_seed(s)
@@ -96,7 +102,7 @@ for kind in ("mlp", "cubic", "cubic+"):
 
 print(f"T={a.T}, d={a.d}, iters={a.iters}, seeds={a.seeds}")
 print(f"{'model':8s} {'solver':12s} {'diverged':>9s} {'fail_iter':>12s} {'acc(own)':>9s} {'REF finite':>10s} {'acc(REF)':>9s}")
-for kind in ("mlp", "cubic", "cubic+"):
+for kind in KINDS:
     for method, h in SOLVERS:
         g = [r for r in rows if r["kind"] == kind and r["method"] == method and r["h"] == h]
         ok = [r for r in g if r["status"] == "ok"]

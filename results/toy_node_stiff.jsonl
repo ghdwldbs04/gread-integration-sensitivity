@@ -1,0 +1,120 @@
+{"kind": "cubic+", "method": "rk4", "h": 0.25, "seed": 0, "status": "nan", "fail_iter": 1}
+{"kind": "cubic+", "method": "rk4", "h": 0.25, "seed": 1, "status": "nan", "fail_iter": 1}
+{"kind": "cubic+", "method": "rk4", "h": 0.25, "seed": 2, "status": "nan", "fail_iter": 2}
+{"kind": "cubic+", "method": "rk4", "h": 0.25, "seed": 3, "status": "nan", "fail_iter": 1}
+{"kind": "cubic+", "method": "rk4", "h": 0.25, "seed": 4, "status": "nan", "fail_iter": 9}
+{"kind": "cubic+", "method": "rk4", "h": 0.25, "seed": 5, "status": "nan", "fail_iter": 1}
+{"kind": "cubic+", "method": "rk4", "h": 0.25, "seed": 6, "status": "nan", "fail_iter": 275}
+{"kind": "cubic+", "method": "rk4", "h": 0.25, "seed": 7, "status": "nan", "fail_iter": 1}
+{"kind": "cubic+", "method": "rk4", "h": 0.25, "seed": 8, "status": "nan", "fail_iter": 124}
+{"kind": "cubic+", "method": "rk4", "h": 0.25, "seed": 9, "status": "nan", "fail_iter": 174}
+{"kind": "cubic+", "method": "rk4", "h": 0.1, "seed": 0, "status": "ok", "fail_iter": null, "acc": 0.9790000319480896, "ref_finite": true, "ref_acc": 0.9790000319480896, "x0max": 2.9408671855926514, "bmin": 0.3305944502353668}
+{"kind": "cubic+", "method": "rk4", "h": 0.1, "seed": 1, "status": "ok", "fail_iter": null, "acc": 0.968000054359436, "ref_finite": true, "ref_acc": 0.968000054359436, "x0max": 2.8327226638793945, "bmin": 0.34162577986717224}
+{"kind": "cubic+", "method": "rk4", "h": 0.1, "seed": 2, "status": "ok", "fail_iter": null, "acc": 0.9670000672340393, "ref_finite": true, "ref_acc": 0.9670000672340393, "x0max": 2.7201762199401855, "bmin": 0.3850237727165222}
+{"kind": "cubic+", "method": "rk4", "h": 0.1, "seed": 3, "status": "nan", "fail_iter": 334}
+{"kind": "cubic+", "method": "rk4", "h": 0.1, "seed": 4, "status": "nan", "fail_iter": 231}
+{"kind": "cubic+", "method": "rk4", "h": 0.1, "seed": 5, "status": "ok", "fail_iter": null, "acc": 0.9690000414848328, "ref_finite": true, "ref_acc": 0.9690000414848328, "x0max": 3.204658269882202, "bmin": 0.36290112137794495}
+{"kind": "cubic+", "method": "rk4", "h": 0.1, "seed": 6, "status": "ok", "fail_iter": null, "acc": 0.9700000286102295, "ref_finite": true, "ref_acc": 0.9700000286102295, "x0max": 2.8852949142456055, "bmin": 0.36335742473602295}
+{"kind": "cubic+", "method": "rk4", "h": 0.1, "seed": 7, "status": "ok", "fail_iter": null, "acc": 0.9590000510215759, "ref_finite": true, "ref_acc": 0.9590000510215759, "x0max": 2.9048984050750732, "bmin": 0.3316385746002197}
+{"kind": "cubic+", "method": "rk4", "h": 0.1, "seed": 8, "status": "ok", "fail_iter": null, "acc": 0.9770000576972961, "ref_finite": true, "ref_acc": 0.9770000576972961, "x0max": 2.8711342811584473, "bmin": 0.3249037265777588}
+{"kind": "cubic+", "method": "rk4", "h": 0.1, "seed": 9, "status": "nan", "fail_iter": 308}
+{"kind": "cubic+", "method": "rk4", "h": 0.05, "seed": 0, "status": "ok", "fail_iter": null, "acc": 0.9670000672340393, "ref_finite": true, "ref_acc": 0.9670000672340393, "x0max": 3.002915382385254, "bmin": 0.38705307245254517}
+{"kind": "cubic+", "method": "rk4", "h": 0.05, "seed": 1, "status": "ok", "fail_iter": null, "acc": 0.9740000367164612, "ref_finite": true, "ref_acc": 0.9740000367164612, "x0max": 2.909118175506592, "bmin": 0.31701797246932983}
+{"kind": "cubic+", "method": "rk4", "h": 0.05, "seed": 2, "status": "ok", "fail_iter": null, "acc": 0.9620000720024109, "ref_finite": true, "ref_acc": 0.9620000720024109, "x0max": 2.595438003540039, "bmin": 0.42241179943084717}
+{"kind": "cubic+", "method": "rk4", "h": 0.05, "seed": 3, "status": "ok", "fail_iter": null, "acc": 0.9720000624656677, "ref_finite": true, "ref_acc": 0.9720000624656677, "x0max": 3.409123182296753, "bmin": 0.2520386874675751}
+{"kind": "cubic+", "method": "rk4", "h": 0.05, "seed": 4, "status": "ok", "fail_iter": null, "acc": 0.9660000205039978, "ref_finite": true, "ref_acc": 0.9660000205039978, "x0max": 3.407230854034424, "bmin": 0.36609455943107605}
+{"kind": "cubic+", "method": "rk4", "h": 0.05, "seed": 5, "status": "ok", "fail_iter": null, "acc": 0.9720000624656677, "ref_finite": true, "ref_acc": 0.9720000624656677, "x0max": 3.0750088691711426, "bmin": 0.34719979763031006}
+{"kind": "cubic+", "method": "rk4", "h": 0.05, "seed": 6, "status": "ok", "fail_iter": null, "acc": 0.9720000624656677, "ref_finite": true, "ref_acc": 0.9720000624656677, "x0max": 2.821855068206787, "bmin": 0.3803984522819519}
+{"kind": "cubic+", "method": "rk4", "h": 0.05, "seed": 7, "status": "ok", "fail_iter": null, "acc": 0.9750000238418579, "ref_finite": true, "ref_acc": 0.9750000238418579, "x0max": 2.77492618560791, "bmin": 0.3089650273323059}
+{"kind": "cubic+", "method": "rk4", "h": 0.05, "seed": 8, "status": "ok", "fail_iter": null, "acc": 0.9700000286102295, "ref_finite": true, "ref_acc": 0.9700000286102295, "x0max": 2.7374985218048096, "bmin": 0.30081188678741455}
+{"kind": "cubic+", "method": "rk4", "h": 0.05, "seed": 9, "status": "ok", "fail_iter": null, "acc": 0.9650000333786011, "ref_finite": true, "ref_acc": 0.9650000333786011, "x0max": 3.2245543003082275, "bmin": 0.3195585608482361}
+{"kind": "cubic+", "method": "dopri5", "h": 0.0, "seed": 0, "status": "ok", "fail_iter": null, "acc": 0.9690000414848328, "ref_finite": true, "ref_acc": 0.9690000414848328, "x0max": 2.9891796112060547, "bmin": 0.34861043095588684}
+{"kind": "cubic+", "method": "dopri5", "h": 0.0, "seed": 1, "status": "ok", "fail_iter": null, "acc": 0.9620000720024109, "ref_finite": true, "ref_acc": 0.9620000720024109, "x0max": 2.8297789096832275, "bmin": 0.3329232633113861}
+{"kind": "cubic+", "method": "dopri5", "h": 0.0, "seed": 2, "status": "ok", "fail_iter": null, "acc": 0.9790000319480896, "ref_finite": true, "ref_acc": 0.9790000319480896, "x0max": 2.65511417388916, "bmin": 0.45242398977279663}
+{"kind": "cubic+", "method": "dopri5", "h": 0.0, "seed": 3, "status": "ok", "fail_iter": null, "acc": 0.9780000448226929, "ref_finite": true, "ref_acc": 0.9780000448226929, "x0max": 2.9725022315979004, "bmin": 0.3123600482940674}
+{"kind": "cubic+", "method": "dopri5", "h": 0.0, "seed": 4, "status": "ok", "fail_iter": null, "acc": 0.9670000672340393, "ref_finite": true, "ref_acc": 0.9670000672340393, "x0max": 3.475187063217163, "bmin": 0.37482741475105286}
+{"kind": "cubic+", "method": "dopri5", "h": 0.0, "seed": 5, "status": "ok", "fail_iter": null, "acc": 0.9730000495910645, "ref_finite": true, "ref_acc": 0.9730000495910645, "x0max": 3.1655125617980957, "bmin": 0.34925946593284607}
+{"kind": "cubic+", "method": "dopri5", "h": 0.0, "seed": 6, "status": "ok", "fail_iter": null, "acc": 0.9770000576972961, "ref_finite": true, "ref_acc": 0.9770000576972961, "x0max": 2.6996259689331055, "bmin": 0.449880450963974}
+{"kind": "cubic+", "method": "dopri5", "h": 0.0, "seed": 7, "status": "ok", "fail_iter": null, "acc": 0.9750000238418579, "ref_finite": true, "ref_acc": 0.9750000238418579, "x0max": 2.8783438205718994, "bmin": 0.29192042350769043}
+{"kind": "cubic+", "method": "dopri5", "h": 0.0, "seed": 8, "status": "ok", "fail_iter": null, "acc": 0.971000075340271, "ref_finite": true, "ref_acc": 0.971000075340271, "x0max": 2.7264368534088135, "bmin": 0.29035571217536926}
+{"kind": "cubic+", "method": "dopri5", "h": 0.0, "seed": 9, "status": "ok", "fail_iter": null, "acc": 0.9760000705718994, "ref_finite": true, "ref_acc": 0.9760000705718994, "x0max": 3.215991258621216, "bmin": 0.2519107460975647}
+{"kind": "cubic", "method": "rk4", "h": 0.25, "seed": 0, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.25, "seed": 1, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.25, "seed": 2, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.25, "seed": 3, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.25, "seed": 4, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.25, "seed": 5, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.25, "seed": 6, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.25, "seed": 7, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.25, "seed": 8, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.25, "seed": 9, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.1, "seed": 0, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.1, "seed": 1, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.1, "seed": 2, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.1, "seed": 3, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.1, "seed": 4, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.1, "seed": 5, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.1, "seed": 6, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.1, "seed": 7, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.1, "seed": 8, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.1, "seed": 9, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.05, "seed": 0, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.05, "seed": 1, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.05, "seed": 2, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.05, "seed": 3, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.05, "seed": 4, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.05, "seed": 5, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.05, "seed": 6, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.05, "seed": 7, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.05, "seed": 8, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.05, "seed": 9, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "dopri5", "h": 0.0, "seed": 0, "status": "solver_error", "fail_iter": 1}
+{"kind": "cubic", "method": "dopri5", "h": 0.0, "seed": 1, "status": "solver_error", "fail_iter": 1}
+{"kind": "cubic", "method": "dopri5", "h": 0.0, "seed": 2, "status": "solver_error", "fail_iter": 1}
+{"kind": "cubic", "method": "dopri5", "h": 0.0, "seed": 3, "status": "solver_error", "fail_iter": 1}
+{"kind": "cubic", "method": "dopri5", "h": 0.0, "seed": 4, "status": "solver_error", "fail_iter": 1}
+{"kind": "cubic", "method": "dopri5", "h": 0.0, "seed": 5, "status": "solver_error", "fail_iter": 1}
+{"kind": "cubic", "method": "dopri5", "h": 0.0, "seed": 6, "status": "solver_error", "fail_iter": 1}
+{"kind": "cubic", "method": "dopri5", "h": 0.0, "seed": 7, "status": "solver_error", "fail_iter": 1}
+{"kind": "cubic", "method": "dopri5", "h": 0.0, "seed": 8, "status": "solver_error", "fail_iter": 1}
+{"kind": "cubic", "method": "dopri5", "h": 0.0, "seed": 9, "status": "solver_error", "fail_iter": 1}
+{"kind": "mlp", "method": "rk4", "h": 0.25, "seed": 0, "status": "ok", "fail_iter": null, "acc": 0.9780000448226929, "ref_finite": true, "ref_acc": 0.9780000448226929, "x0max": 2.6807267665863037, "bmin": -0.9980484247207642}
+{"kind": "mlp", "method": "rk4", "h": 0.25, "seed": 1, "status": "ok", "fail_iter": null, "acc": 0.9810000658035278, "ref_finite": true, "ref_acc": 0.9810000658035278, "x0max": 2.992338180541992, "bmin": -0.995276689529419}
+{"kind": "mlp", "method": "rk4", "h": 0.25, "seed": 2, "status": "ok", "fail_iter": null, "acc": 0.9750000238418579, "ref_finite": true, "ref_acc": 0.9750000238418579, "x0max": 2.9187262058258057, "bmin": -0.9726026058197021}
+{"kind": "mlp", "method": "rk4", "h": 0.25, "seed": 3, "status": "ok", "fail_iter": null, "acc": 0.9750000238418579, "ref_finite": true, "ref_acc": 0.9750000238418579, "x0max": 3.1393351554870605, "bmin": -0.9401872158050537}
+{"kind": "mlp", "method": "rk4", "h": 0.25, "seed": 4, "status": "ok", "fail_iter": null, "acc": 0.968000054359436, "ref_finite": true, "ref_acc": 0.968000054359436, "x0max": 2.7619237899780273, "bmin": -0.9327571392059326}
+{"kind": "mlp", "method": "rk4", "h": 0.25, "seed": 5, "status": "ok", "fail_iter": null, "acc": 0.9760000705718994, "ref_finite": true, "ref_acc": 0.9760000705718994, "x0max": 3.3055429458618164, "bmin": -0.9748560190200806}
+{"kind": "mlp", "method": "rk4", "h": 0.25, "seed": 6, "status": "ok", "fail_iter": null, "acc": 0.9750000238418579, "ref_finite": true, "ref_acc": 0.9750000238418579, "x0max": 2.6720714569091797, "bmin": -0.8609468936920166}
+{"kind": "mlp", "method": "rk4", "h": 0.25, "seed": 7, "status": "ok", "fail_iter": null, "acc": 0.9700000286102295, "ref_finite": true, "ref_acc": 0.9700000286102295, "x0max": 2.877046823501587, "bmin": -0.9715245962142944}
+{"kind": "mlp", "method": "rk4", "h": 0.25, "seed": 8, "status": "ok", "fail_iter": null, "acc": 0.796000063419342, "ref_finite": true, "ref_acc": 0.796000063419342, "x0max": 3.338947296142578, "bmin": -0.9514522552490234}
+{"kind": "mlp", "method": "rk4", "h": 0.25, "seed": 9, "status": "ok", "fail_iter": null, "acc": 0.9780000448226929, "ref_finite": true, "ref_acc": 0.9780000448226929, "x0max": 2.9223458766937256, "bmin": -0.9869368076324463}
+{"kind": "mlp", "method": "rk4", "h": 0.1, "seed": 0, "status": "ok", "fail_iter": null, "acc": 0.9740000367164612, "ref_finite": true, "ref_acc": 0.9740000367164612, "x0max": 2.6750075817108154, "bmin": -0.9980484247207642}
+{"kind": "mlp", "method": "rk4", "h": 0.1, "seed": 1, "status": "ok", "fail_iter": null, "acc": 0.9630000591278076, "ref_finite": true, "ref_acc": 0.9630000591278076, "x0max": 2.8811604976654053, "bmin": -0.995276689529419}
+{"kind": "mlp", "method": "rk4", "h": 0.1, "seed": 2, "status": "ok", "fail_iter": null, "acc": 0.9770000576972961, "ref_finite": true, "ref_acc": 0.9770000576972961, "x0max": 2.9249062538146973, "bmin": -0.9726026058197021}
+{"kind": "mlp", "method": "rk4", "h": 0.1, "seed": 3, "status": "ok", "fail_iter": null, "acc": 0.9820000529289246, "ref_finite": true, "ref_acc": 0.9820000529289246, "x0max": 3.204807758331299, "bmin": -0.9401872158050537}
+{"kind": "mlp", "method": "rk4", "h": 0.1, "seed": 4, "status": "ok", "fail_iter": null, "acc": 0.9770000576972961, "ref_finite": true, "ref_acc": 0.9770000576972961, "x0max": 2.8606395721435547, "bmin": -0.9327571392059326}
+{"kind": "mlp", "method": "rk4", "h": 0.1, "seed": 5, "status": "ok", "fail_iter": null, "acc": 0.9800000190734863, "ref_finite": true, "ref_acc": 0.9800000190734863, "x0max": 3.310537099838257, "bmin": -0.9748560190200806}
+{"kind": "mlp", "method": "rk4", "h": 0.1, "seed": 6, "status": "ok", "fail_iter": null, "acc": 0.9750000238418579, "ref_finite": true, "ref_acc": 0.9750000238418579, "x0max": 2.671956777572632, "bmin": -0.8609468936920166}
+{"kind": "mlp", "method": "rk4", "h": 0.1, "seed": 7, "status": "ok", "fail_iter": null, "acc": 0.9740000367164612, "ref_finite": true, "ref_acc": 0.9740000367164612, "x0max": 2.832920551300049, "bmin": -0.9715245962142944}
+{"kind": "mlp", "method": "rk4", "h": 0.1, "seed": 8, "status": "ok", "fail_iter": null, "acc": 0.9820000529289246, "ref_finite": true, "ref_acc": 0.9820000529289246, "x0max": 3.0648224353790283, "bmin": -0.9514522552490234}
+{"kind": "mlp", "method": "rk4", "h": 0.1, "seed": 9, "status": "ok", "fail_iter": null, "acc": 0.9750000238418579, "ref_finite": true, "ref_acc": 0.9750000238418579, "x0max": 2.795656204223633, "bmin": -0.9869368076324463}
+{"kind": "mlp", "method": "rk4", "h": 0.05, "seed": 0, "status": "ok", "fail_iter": null, "acc": 0.9780000448226929, "ref_finite": true, "ref_acc": 0.9780000448226929, "x0max": 2.831061601638794, "bmin": -0.9980484247207642}
+{"kind": "mlp", "method": "rk4", "h": 0.05, "seed": 1, "status": "ok", "fail_iter": null, "acc": 0.9790000319480896, "ref_finite": true, "ref_acc": 0.9790000319480896, "x0max": 2.8806724548339844, "bmin": -0.995276689529419}
+{"kind": "mlp", "method": "rk4", "h": 0.05, "seed": 2, "status": "ok", "fail_iter": null, "acc": 0.9790000319480896, "ref_finite": true, "ref_acc": 0.9790000319480896, "x0max": 2.845729112625122, "bmin": -0.9726026058197021}
+{"kind": "mlp", "method": "rk4", "h": 0.05, "seed": 3, "status": "ok", "fail_iter": null, "acc": 0.9810000658035278, "ref_finite": true, "ref_acc": 0.9810000658035278, "x0max": 3.0405373573303223, "bmin": -0.9401872158050537}
+{"kind": "mlp", "method": "rk4", "h": 0.05, "seed": 4, "status": "ok", "fail_iter": null, "acc": 0.9740000367164612, "ref_finite": true, "ref_acc": 0.9740000367164612, "x0max": 2.8095476627349854, "bmin": -0.9327571392059326}
+{"kind": "mlp", "method": "rk4", "h": 0.05, "seed": 5, "status": "ok", "fail_iter": null, "acc": 0.971000075340271, "ref_finite": true, "ref_acc": 0.971000075340271, "x0max": 3.3029532432556152, "bmin": -0.9748560190200806}
+{"kind": "mlp", "method": "rk4", "h": 0.05, "seed": 6, "status": "ok", "fail_iter": null, "acc": 0.9750000238418579, "ref_finite": true, "ref_acc": 0.9750000238418579, "x0max": 2.6848349571228027, "bmin": -0.8609468936920166}
+{"kind": "mlp", "method": "rk4", "h": 0.05, "seed": 7, "status": "ok", "fail_iter": null, "acc": 0.9650000333786011, "ref_finite": true, "ref_acc": 0.9650000333786011, "x0max": 2.8335070610046387, "bmin": -0.9715245962142944}
+{"kind": "mlp", "method": "rk4", "h": 0.05, "seed": 8, "status": "ok", "fail_iter": null, "acc": 0.9740000367164612, "ref_finite": true, "ref_acc": 0.9740000367164612, "x0max": 3.0545260906219482, "bmin": -0.9514522552490234}
+{"kind": "mlp", "method": "rk4", "h": 0.05, "seed": 9, "status": "ok", "fail_iter": null, "acc": 0.9790000319480896, "ref_finite": true, "ref_acc": 0.9790000319480896, "x0max": 2.7113466262817383, "bmin": -0.9869368076324463}
+{"kind": "mlp", "method": "dopri5", "h": 0.0, "seed": 0, "status": "ok", "fail_iter": null, "acc": 0.971000075340271, "ref_finite": true, "ref_acc": 0.971000075340271, "x0max": 2.670999050140381, "bmin": -0.9980484247207642}
+{"kind": "mlp", "method": "dopri5", "h": 0.0, "seed": 1, "status": "ok", "fail_iter": null, "acc": 0.9760000705718994, "ref_finite": true, "ref_acc": 0.9760000705718994, "x0max": 2.846461534500122, "bmin": -0.995276689529419}
+{"kind": "mlp", "method": "dopri5", "h": 0.0, "seed": 2, "status": "ok", "fail_iter": null, "acc": 0.9770000576972961, "ref_finite": true, "ref_acc": 0.9770000576972961, "x0max": 2.951793909072876, "bmin": -0.9726026058197021}
+{"kind": "mlp", "method": "dopri5", "h": 0.0, "seed": 3, "status": "ok", "fail_iter": null, "acc": 0.9700000286102295, "ref_finite": true, "ref_acc": 0.9700000286102295, "x0max": 3.1210765838623047, "bmin": -0.9401872158050537}
+{"kind": "mlp", "method": "dopri5", "h": 0.0, "seed": 4, "status": "ok", "fail_iter": null, "acc": 0.9750000238418579, "ref_finite": true, "ref_acc": 0.9750000238418579, "x0max": 2.818734645843506, "bmin": -0.9327571392059326}
+{"kind": "mlp", "method": "dopri5", "h": 0.0, "seed": 5, "status": "ok", "fail_iter": null, "acc": 0.9300000667572021, "ref_finite": true, "ref_acc": 0.9300000667572021, "x0max": 3.1792290210723877, "bmin": -0.9748560190200806}
+{"kind": "mlp", "method": "dopri5", "h": 0.0, "seed": 6, "status": "ok", "fail_iter": null, "acc": 0.9770000576972961, "ref_finite": true, "ref_acc": 0.9770000576972961, "x0max": 2.7517130374908447, "bmin": -0.8609468936920166}
+{"kind": "mlp", "method": "dopri5", "h": 0.0, "seed": 7, "status": "ok", "fail_iter": null, "acc": 0.9650000333786011, "ref_finite": true, "ref_acc": 0.9650000333786011, "x0max": 2.878269910812378, "bmin": -0.9715245962142944}
+{"kind": "mlp", "method": "dopri5", "h": 0.0, "seed": 8, "status": "ok", "fail_iter": null, "acc": 0.9780000448226929, "ref_finite": true, "ref_acc": 0.9780000448226929, "x0max": 3.2383511066436768, "bmin": -0.9514522552490234}
+{"kind": "mlp", "method": "dopri5", "h": 0.0, "seed": 9, "status": "ok", "fail_iter": null, "acc": 0.9790000319480896, "ref_finite": true, "ref_acc": 0.9790000319480896, "x0max": 2.6571524143218994, "bmin": -0.9869368076324463}
