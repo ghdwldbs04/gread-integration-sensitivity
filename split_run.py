@@ -52,9 +52,11 @@ p.add_argument("--splits", type=int, nargs="+", default=list(range(10)))
 p.add_argument("--ref_h", type=float, default=0.05)
 p.add_argument("--out", default="../results/split.jsonl")
 p.add_argument("--tag", default="")
+p.add_argument("--plain", default="", help="제안 적분기 대신 이 torchdiffeq 적분기로 학습 (예: euler)")
+p.add_argument("--ref2_h", type=float, default=0.01, help="두 번째 기준해: 분할 적분기 미세 step")
 a = p.parse_args()
 
-ns = argparse.Namespace(dataset=a.dataset, reaction="allen-cahn", method="euler", step_size=a.step_size,
+ns = argparse.Namespace(dataset=a.dataset, reaction="allen-cahn", method=a.plain or "euler", step_size=a.step_size,
                         tol_scale=1.0, max_nfe=5000, epoch=None, time=None, beta_pos=a.beta_pos)
 opt = R.build_opt(ns)
 dev = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -73,7 +75,8 @@ _GNN = R.GNN
 
 def GNN_split(*args, **kw):
     m = _GNN(*args, **kw)
-    m.odeblock.train_integrator = m.odeblock.test_integrator = split_odeint
+    if not a.plain:
+        m.odeblock.train_integrator = m.odeblock.test_integrator = split_odeint
     holder["m"] = m
     return m
 
@@ -88,13 +91,17 @@ for s in a.splits:
         m.odeblock.opt["method"], m.odeblock.opt["step_size"] = "rk4", a.ref_h
         (_, _, te), _, finite = R.evaluate(m, ds.data.to(dev))
         rec.update(ref_finite=finite, ref_test_acc=te if finite else None)
-    rec.update(dataset=a.dataset, reaction="allen-cahn" + ("+bpos" if a.beta_pos else ""), method="split",
+        m.odeblock.test_integrator = split_odeint
+        m.odeblock.opt["step_size"] = a.ref2_h
+        (_, _, te2), _, fin2 = R.evaluate(m, ds.data.to(dev))
+        rec.update(ref2_finite=fin2, ref2_test_acc=te2 if fin2 else None)
+    rec.update(dataset=a.dataset, reaction="allen-cahn" + ("+bpos" if a.beta_pos else ""), method=a.plain or "split",
                step_size=a.step_size, ref_h=a.ref_h, tag=a.tag, wall_sec=time.time() - t0)
     os.makedirs(os.path.dirname(a.out), exist_ok=True)
     with open(a.out, "a", encoding="utf-8") as fo:
         fo.write(json.dumps(rec, ensure_ascii=False, default=str) + "\n")
     acc = f"{rec['test_acc']*100:.2f}" if rec.get("test_acc") is not None else "-"
     ref = rec.get("ref_test_acc")
-    print(f"[split] bpos={a.beta_pos} h={a.step_size} split={s} status={rec['status']} test={acc} "
-          f"ref={'-' if ref is None else f'{ref*100:.2f}'} fNFE/ep={rec['fwd_nfe_per_epoch']} "
+    print(f"[{a.plain or 'split'}] {a.dataset} bpos={a.beta_pos} h={a.step_size} split={s} status={rec['status']} test={acc} "
+          f"ref={'-' if ref is None else f'{ref*100:.2f}'} ref2={rec.get('ref2_test_acc')} fNFE/ep={rec['fwd_nfe_per_epoch']} "
           f"s/ep={rec['sec_per_epoch']}", flush=True)
