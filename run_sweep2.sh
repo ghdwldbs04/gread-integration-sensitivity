@@ -26,7 +26,7 @@ for r in fisher zeldovich allen-cahn+bpos zeldovich+bpos fisher+bpos; do
   for s in $SETTINGS; do run Cora "$r" "$s"; done
 done
 # (B) 다른 데이터셋 일반화: BS / AC / AC(b>0)
-for ds in Citeseer texas wisconsin chameleon; do
+for ds in texas wisconsin film; do
   for r in bspm allen-cahn allen-cahn+bpos; do
     for s in $SETTINGS; do run "$ds" "$r" "$s"; done
   done
