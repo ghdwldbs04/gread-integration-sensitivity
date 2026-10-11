@@ -1,0 +1,90 @@
+{"kind": "mlp", "method": "euler", "h": 1.0, "seed": 0, "status": "ok", "fail_iter": null, "acc": 0.9750000238418579, "ref_finite": true, "ref_acc": 0.6450000405311584, "x0max": 2.862330198287964, "bmin": -0.9980484247207642}
+{"kind": "mlp", "method": "euler", "h": 1.0, "seed": 1, "status": "ok", "fail_iter": null, "acc": 0.971000075340271, "ref_finite": true, "ref_acc": 0.675000011920929, "x0max": 2.907844066619873, "bmin": -0.995276689529419}
+{"kind": "mlp", "method": "euler", "h": 1.0, "seed": 2, "status": "ok", "fail_iter": null, "acc": 0.968000054359436, "ref_finite": true, "ref_acc": 0.8870000243186951, "x0max": 2.9152588844299316, "bmin": -0.9726026058197021}
+{"kind": "mlp", "method": "euler", "h": 1.0, "seed": 3, "status": "ok", "fail_iter": null, "acc": 0.9720000624656677, "ref_finite": true, "ref_acc": 0.8610000610351562, "x0max": 3.3301889896392822, "bmin": -0.9401872158050537}
+{"kind": "mlp", "method": "euler", "h": 1.0, "seed": 4, "status": "ok", "fail_iter": null, "acc": 0.956000030040741, "ref_finite": true, "ref_acc": 0.7940000295639038, "x0max": 3.480747938156128, "bmin": -0.9327571392059326}
+{"kind": "mlp", "method": "euler", "h": 1.0, "seed": 5, "status": "ok", "fail_iter": null, "acc": 0.9760000705718994, "ref_finite": true, "ref_acc": 0.7690000534057617, "x0max": 3.2282955646514893, "bmin": -0.9748560190200806}
+{"kind": "mlp", "method": "euler", "h": 1.0, "seed": 6, "status": "ok", "fail_iter": null, "acc": 0.9740000367164612, "ref_finite": true, "ref_acc": 0.7160000205039978, "x0max": 3.013016939163208, "bmin": -0.8609468936920166}
+{"kind": "mlp", "method": "euler", "h": 1.0, "seed": 7, "status": "ok", "fail_iter": null, "acc": 0.9640000462532043, "ref_finite": true, "ref_acc": 0.7600000500679016, "x0max": 3.1140849590301514, "bmin": -0.9715245962142944}
+{"kind": "mlp", "method": "euler", "h": 1.0, "seed": 8, "status": "ok", "fail_iter": null, "acc": 0.9720000624656677, "ref_finite": true, "ref_acc": 0.4190000295639038, "x0max": 3.1450371742248535, "bmin": -0.9514522552490234}
+{"kind": "mlp", "method": "euler", "h": 1.0, "seed": 9, "status": "ok", "fail_iter": null, "acc": 0.9740000367164612, "ref_finite": true, "ref_acc": 0.6860000491142273, "x0max": 2.696826219558716, "bmin": -0.9869368076324463}
+{"kind": "mlp", "method": "euler", "h": 0.25, "seed": 0, "status": "ok", "fail_iter": null, "acc": 0.9750000238418579, "ref_finite": true, "ref_acc": 0.9440000653266907, "x0max": 2.703139543533325, "bmin": -0.9980484247207642}
+{"kind": "mlp", "method": "euler", "h": 0.25, "seed": 1, "status": "ok", "fail_iter": null, "acc": 0.9760000705718994, "ref_finite": true, "ref_acc": 0.9380000233650208, "x0max": 3.0617947578430176, "bmin": -0.995276689529419}
+{"kind": "mlp", "method": "euler", "h": 0.25, "seed": 2, "status": "ok", "fail_iter": null, "acc": 0.9810000658035278, "ref_finite": true, "ref_acc": 0.9230000376701355, "x0max": 3.118257761001587, "bmin": -0.9726026058197021}
+{"kind": "mlp", "method": "euler", "h": 0.25, "seed": 3, "status": "ok", "fail_iter": null, "acc": 0.9730000495910645, "ref_finite": true, "ref_acc": 0.9660000205039978, "x0max": 3.2317607402801514, "bmin": -0.9401872158050537}
+{"kind": "mlp", "method": "euler", "h": 0.25, "seed": 4, "status": "ok", "fail_iter": null, "acc": 0.9750000238418579, "ref_finite": true, "ref_acc": 0.956000030040741, "x0max": 2.7882089614868164, "bmin": -0.9327571392059326}
+{"kind": "mlp", "method": "euler", "h": 0.25, "seed": 5, "status": "ok", "fail_iter": null, "acc": 0.9790000319480896, "ref_finite": true, "ref_acc": 0.9290000200271606, "x0max": 3.4373385906219482, "bmin": -0.9748560190200806}
+{"kind": "mlp", "method": "euler", "h": 0.25, "seed": 6, "status": "ok", "fail_iter": null, "acc": 0.9700000286102295, "ref_finite": true, "ref_acc": 0.9460000395774841, "x0max": 2.7348084449768066, "bmin": -0.8609468936920166}
+{"kind": "mlp", "method": "euler", "h": 0.25, "seed": 7, "status": "ok", "fail_iter": null, "acc": 0.9600000381469727, "ref_finite": true, "ref_acc": 0.893000066280365, "x0max": 2.892672061920166, "bmin": -0.9715245962142944}
+{"kind": "mlp", "method": "euler", "h": 0.25, "seed": 8, "status": "ok", "fail_iter": null, "acc": 0.9670000672340393, "ref_finite": true, "ref_acc": 0.9160000681877136, "x0max": 3.132009983062744, "bmin": -0.9514522552490234}
+{"kind": "mlp", "method": "euler", "h": 0.25, "seed": 9, "status": "ok", "fail_iter": null, "acc": 0.9780000448226929, "ref_finite": true, "ref_acc": 0.9020000696182251, "x0max": 2.969123601913452, "bmin": -0.9869368076324463}
+{"kind": "mlp", "method": "rk4", "h": 0.5, "seed": 0, "status": "ok", "fail_iter": null, "acc": 0.9820000529289246, "ref_finite": true, "ref_acc": 0.9790000319480896, "x0max": 2.7933197021484375, "bmin": -0.9980484247207642}
+{"kind": "mlp", "method": "rk4", "h": 0.5, "seed": 1, "status": "ok", "fail_iter": null, "acc": 0.9760000705718994, "ref_finite": true, "ref_acc": 0.9760000705718994, "x0max": 2.9021639823913574, "bmin": -0.995276689529419}
+{"kind": "mlp", "method": "rk4", "h": 0.5, "seed": 2, "status": "ok", "fail_iter": null, "acc": 0.9750000238418579, "ref_finite": true, "ref_acc": 0.9750000238418579, "x0max": 2.6509835720062256, "bmin": -0.9726026058197021}
+{"kind": "mlp", "method": "rk4", "h": 0.5, "seed": 3, "status": "ok", "fail_iter": null, "acc": 0.9730000495910645, "ref_finite": true, "ref_acc": 0.9730000495910645, "x0max": 3.1228621006011963, "bmin": -0.9401872158050537}
+{"kind": "mlp", "method": "rk4", "h": 0.5, "seed": 4, "status": "ok", "fail_iter": null, "acc": 0.9720000624656677, "ref_finite": true, "ref_acc": 0.9720000624656677, "x0max": 2.6924026012420654, "bmin": -0.9327571392059326}
+{"kind": "mlp", "method": "rk4", "h": 0.5, "seed": 5, "status": "ok", "fail_iter": null, "acc": 0.9780000448226929, "ref_finite": true, "ref_acc": 0.9780000448226929, "x0max": 3.3058414459228516, "bmin": -0.9748560190200806}
+{"kind": "mlp", "method": "rk4", "h": 0.5, "seed": 6, "status": "ok", "fail_iter": null, "acc": 0.9780000448226929, "ref_finite": true, "ref_acc": 0.9790000319480896, "x0max": 2.710123062133789, "bmin": -0.8609468936920166}
+{"kind": "mlp", "method": "rk4", "h": 0.5, "seed": 7, "status": "ok", "fail_iter": null, "acc": 0.9690000414848328, "ref_finite": true, "ref_acc": 0.9690000414848328, "x0max": 2.8783459663391113, "bmin": -0.9715245962142944}
+{"kind": "mlp", "method": "rk4", "h": 0.5, "seed": 8, "status": "ok", "fail_iter": null, "acc": 0.9740000367164612, "ref_finite": true, "ref_acc": 0.9740000367164612, "x0max": 3.1393494606018066, "bmin": -0.9514522552490234}
+{"kind": "mlp", "method": "rk4", "h": 0.5, "seed": 9, "status": "ok", "fail_iter": null, "acc": 0.9790000319480896, "ref_finite": true, "ref_acc": 0.9790000319480896, "x0max": 2.6420211791992188, "bmin": -0.9869368076324463}
+{"kind": "cubic", "method": "euler", "h": 1.0, "seed": 0, "status": "ok", "fail_iter": null, "acc": 0.815000057220459, "ref_finite": false, "ref_acc": null, "x0max": 2.838592529296875, "bmin": -0.9900095462799072}
+{"kind": "cubic", "method": "euler", "h": 1.0, "seed": 1, "status": "ok", "fail_iter": null, "acc": 0.8140000104904175, "ref_finite": false, "ref_acc": null, "x0max": 2.4909510612487793, "bmin": -1.055768370628357}
+{"kind": "cubic", "method": "euler", "h": 1.0, "seed": 2, "status": "ok", "fail_iter": null, "acc": 0.8540000319480896, "ref_finite": false, "ref_acc": null, "x0max": 2.344412326812744, "bmin": -0.9469499588012695}
+{"kind": "cubic", "method": "euler", "h": 1.0, "seed": 3, "status": "ok", "fail_iter": null, "acc": 0.5879999995231628, "ref_finite": false, "ref_acc": null, "x0max": 2.604433536529541, "bmin": -1.3478295803070068}
+{"kind": "cubic", "method": "euler", "h": 1.0, "seed": 4, "status": "ok", "fail_iter": null, "acc": 0.8650000691413879, "ref_finite": false, "ref_acc": null, "x0max": 2.431623935699463, "bmin": -0.8995755314826965}
+{"kind": "cubic", "method": "euler", "h": 1.0, "seed": 5, "status": "ok", "fail_iter": null, "acc": 0.6350000500679016, "ref_finite": false, "ref_acc": null, "x0max": 2.591629981994629, "bmin": -1.0050548315048218}
+{"kind": "cubic", "method": "euler", "h": 1.0, "seed": 6, "status": "ok", "fail_iter": null, "acc": 0.8130000233650208, "ref_finite": false, "ref_acc": null, "x0max": 2.49709415435791, "bmin": -0.8001255393028259}
+{"kind": "cubic", "method": "euler", "h": 1.0, "seed": 7, "status": "ok", "fail_iter": null, "acc": 0.7510000467300415, "ref_finite": false, "ref_acc": null, "x0max": 2.586071252822876, "bmin": -1.0763720273971558}
+{"kind": "cubic", "method": "euler", "h": 1.0, "seed": 8, "status": "ok", "fail_iter": null, "acc": 0.2460000067949295, "ref_finite": false, "ref_acc": null, "x0max": 2.6199517250061035, "bmin": -0.9514522552490234}
+{"kind": "cubic", "method": "euler", "h": 1.0, "seed": 9, "status": "ok", "fail_iter": null, "acc": 0.9160000681877136, "ref_finite": false, "ref_acc": null, "x0max": 2.377166748046875, "bmin": -0.9410394430160522}
+{"kind": "cubic", "method": "euler", "h": 0.25, "seed": 0, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "euler", "h": 0.25, "seed": 1, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "euler", "h": 0.25, "seed": 2, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "euler", "h": 0.25, "seed": 3, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "euler", "h": 0.25, "seed": 4, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "euler", "h": 0.25, "seed": 5, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "euler", "h": 0.25, "seed": 6, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "euler", "h": 0.25, "seed": 7, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "euler", "h": 0.25, "seed": 8, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "euler", "h": 0.25, "seed": 9, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.5, "seed": 0, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.5, "seed": 1, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.5, "seed": 2, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.5, "seed": 3, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.5, "seed": 4, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.5, "seed": 5, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.5, "seed": 6, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.5, "seed": 7, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.5, "seed": 8, "status": "nan", "fail_iter": 1}
+{"kind": "cubic", "method": "rk4", "h": 0.5, "seed": 9, "status": "nan", "fail_iter": 1}
+{"kind": "cubic+", "method": "euler", "h": 1.0, "seed": 0, "status": "ok", "fail_iter": null, "acc": 0.687000036239624, "ref_finite": true, "ref_acc": 0.35200002789497375, "x0max": 2.838592529296875, "bmin": 0.03705497458577156}
+{"kind": "cubic+", "method": "euler", "h": 1.0, "seed": 1, "status": "ok", "fail_iter": null, "acc": 0.7690000534057617, "ref_finite": true, "ref_acc": 0.6040000319480896, "x0max": 2.4884958267211914, "bmin": 0.2284054309129715}
+{"kind": "cubic+", "method": "euler", "h": 1.0, "seed": 2, "status": "ok", "fail_iter": null, "acc": 0.8380000591278076, "ref_finite": true, "ref_acc": 0.7280000448226929, "x0max": 3.6394503116607666, "bmin": 0.2718559205532074}
+{"kind": "cubic+", "method": "euler", "h": 1.0, "seed": 3, "status": "ok", "fail_iter": null, "acc": 0.7700000405311584, "ref_finite": true, "ref_acc": 0.5879999995231628, "x0max": 2.604433536529541, "bmin": 0.3297027349472046}
+{"kind": "cubic+", "method": "euler", "h": 1.0, "seed": 4, "status": "ok", "fail_iter": null, "acc": 0.7010000348091125, "ref_finite": true, "ref_acc": 0.49000000953674316, "x0max": 2.4259002208709717, "bmin": 0.31498292088508606}
+{"kind": "cubic+", "method": "euler", "h": 1.0, "seed": 5, "status": "ok", "fail_iter": null, "acc": 0.6940000057220459, "ref_finite": true, "ref_acc": 0.6450000405311584, "x0max": 2.855788230895996, "bmin": 0.0664447546005249}
+{"kind": "cubic+", "method": "euler", "h": 1.0, "seed": 6, "status": "ok", "fail_iter": null, "acc": 0.7520000338554382, "ref_finite": true, "ref_acc": 0.7480000257492065, "x0max": 2.3495144844055176, "bmin": 0.3574528992176056}
+{"kind": "cubic+", "method": "euler", "h": 1.0, "seed": 7, "status": "ok", "fail_iter": null, "acc": 0.4690000116825104, "ref_finite": true, "ref_acc": 0.5380000472068787, "x0max": 2.586071252822876, "bmin": 0.32099995017051697}
+{"kind": "cubic+", "method": "euler", "h": 1.0, "seed": 8, "status": "ok", "fail_iter": null, "acc": 0.5490000247955322, "ref_finite": true, "ref_acc": 0.7750000357627869, "x0max": 2.7385849952697754, "bmin": 0.3108413815498352}
+{"kind": "cubic+", "method": "euler", "h": 1.0, "seed": 9, "status": "ok", "fail_iter": null, "acc": 0.7560000419616699, "ref_finite": true, "ref_acc": 0.47200003266334534, "x0max": 2.354707956314087, "bmin": 0.3249031901359558}
+{"kind": "cubic+", "method": "euler", "h": 0.25, "seed": 0, "status": "nan", "fail_iter": 193}
+{"kind": "cubic+", "method": "euler", "h": 0.25, "seed": 1, "status": "nan", "fail_iter": 107}
+{"kind": "cubic+", "method": "euler", "h": 0.25, "seed": 2, "status": "ok", "fail_iter": null, "acc": 0.9780000448226929, "ref_finite": true, "ref_acc": 0.9740000367164612, "x0max": 2.7957561016082764, "bmin": 0.3088338375091553}
+{"kind": "cubic+", "method": "euler", "h": 0.25, "seed": 3, "status": "nan", "fail_iter": 138}
+{"kind": "cubic+", "method": "euler", "h": 0.25, "seed": 4, "status": "nan", "fail_iter": 110}
+{"kind": "cubic+", "method": "euler", "h": 0.25, "seed": 5, "status": "nan", "fail_iter": 206}
+{"kind": "cubic+", "method": "euler", "h": 0.25, "seed": 6, "status": "ok", "fail_iter": null, "acc": 0.9730000495910645, "ref_finite": true, "ref_acc": 0.9770000576972961, "x0max": 2.850548028945923, "bmin": 0.40260347723960876}
+{"kind": "cubic+", "method": "euler", "h": 0.25, "seed": 7, "status": "nan", "fail_iter": 22}
+{"kind": "cubic+", "method": "euler", "h": 0.25, "seed": 8, "status": "nan", "fail_iter": 359}
+{"kind": "cubic+", "method": "euler", "h": 0.25, "seed": 9, "status": "nan", "fail_iter": 301}
+{"kind": "cubic+", "method": "rk4", "h": 0.5, "seed": 0, "status": "nan", "fail_iter": 1}
+{"kind": "cubic+", "method": "rk4", "h": 0.5, "seed": 1, "status": "nan", "fail_iter": 1}
+{"kind": "cubic+", "method": "rk4", "h": 0.5, "seed": 2, "status": "nan", "fail_iter": 1}
+{"kind": "cubic+", "method": "rk4", "h": 0.5, "seed": 3, "status": "nan", "fail_iter": 1}
+{"kind": "cubic+", "method": "rk4", "h": 0.5, "seed": 4, "status": "nan", "fail_iter": 1}
+{"kind": "cubic+", "method": "rk4", "h": 0.5, "seed": 5, "status": "nan", "fail_iter": 1}
+{"kind": "cubic+", "method": "rk4", "h": 0.5, "seed": 6, "status": "nan", "fail_iter": 1}
+{"kind": "cubic+", "method": "rk4", "h": 0.5, "seed": 7, "status": "nan", "fail_iter": 1}
+{"kind": "cubic+", "method": "rk4", "h": 0.5, "seed": 8, "status": "nan", "fail_iter": 1}
+{"kind": "cubic+", "method": "rk4", "h": 0.5, "seed": 9, "status": "nan", "fail_iter": 1}
