@@ -1,0 +1,162 @@
+/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch_geometric/data/in_memory_dataset.py:157: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch/cuda/__init__.py:789: UserWarning: Can't initialize NVML
+  warnings.warn("Can't initialize NVML")
+/home/hong_jy_sc/ksc-gread/GREAD/src/function_gread.py:34: FutureWarning: `nn.init.uniform` is now deprecated in favor of `nn.init.uniform_`.
+  uniform(self.b_W, a=-1, b=1)
+/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torchdiffeq/_impl/misc.py:11: UserWarning: Dopri5Solver: Unexpected arguments {'step_size': 1.0}
+  warnings.warn('{}: Unexpected arguments {}'.format(solver.__class__.__name__, unused_kwargs))
+[KeOps] Warning : CUDA libraries not found or could not be loaded; Switching to CPU only.
+torch.Size([2485])
+tensor(1192)
+torch.Size([2485])
+tensor(796)
+torch.Size([2485])
+tensor(497)
+torch.Size([2485, 1433])
+== Cora train=rk4 h=0.25 split=0 acc=86.32 max|x0| eval=1.10 train=1.58 bmax=0.77
+   eval:rk4_1.0     finite=True  maxH=0.9960402846336365 relerr=0.0007815816788934171 acc=86.32
+   eval:rk4_0.5     finite=True  maxH=0.9961596727371216 relerr=5.1058839744655415e-05 acc=86.32
+   eval:rk4_0.25    finite=True  maxH=0.9962112307548523 relerr=3.7945630992908264e-06 acc=86.32
+   eval:rk4_0.05    finite=True  maxH=0.996213972568512 relerr=1.8898738574080198e-07 acc=86.32
+   eval:rk4_0.01    finite=True  maxH=0.996213972568512 relerr=0.0 acc=86.32
+   eval:dopri5_None finite=True  maxH=0.9962141513824463 relerr=8.507134907631553e-07 acc=86.32
+   eval:split_1.0   finite=True  maxH=0.9973406791687012 relerr=0.06321337819099426 acc=86.12
+   eval:split_0.01  finite=True  maxH=0.9962194561958313 relerr=0.0006245315889827907 acc=86.32
+   train:rk4_1.0    finite=False maxH=None relerr=None acc=-
+   train:rk4_0.5    finite=True  maxH=0.9976550340652466 relerr=9.801915439311415e-05 acc=-
+   train:rk4_0.25   finite=True  maxH=0.9976806640625 relerr=4.474663910514209e-06 acc=-
+   train:rk4_0.05   finite=True  maxH=0.9976813793182373 relerr=2.030307371114759e-07 acc=-
+   train:rk4_0.01   finite=True  maxH=0.9976813793182373 relerr=0.0 acc=-
+   train:dopri5_None finite=True  maxH=0.9976817965507507 relerr=7.393834380309272e-07 acc=-
+   train:split_1.0  finite=True  maxH=0.99881911277771 relerr=0.09428935497999191 acc=-
+   train:split_0.01 finite=True  maxH=0.9976891279220581 relerr=0.0009299633675254881 acc=-
+torch.Size([2485])
+tensor(1192)
+torch.Size([2485])
+tensor(796)
+torch.Size([2485])
+tensor(497)
+torch.Size([2485, 1433])
+== Cora train=rk4 h=0.25 split=1 acc=90.34 max|x0| eval=1.43 train=1.63 bmax=0.70
+   eval:rk4_1.0     finite=False maxH=None relerr=None acc=-
+   eval:rk4_0.5     finite=True  maxH=0.9978746771812439 relerr=5.56762061023619e-05 acc=90.34
+   eval:rk4_0.25    finite=True  maxH=0.9978792667388916 relerr=3.9194542296172585e-06 acc=90.34
+   eval:rk4_0.05    finite=True  maxH=0.9978795051574707 relerr=1.847372317342888e-07 acc=90.34
+   eval:rk4_0.01    finite=True  maxH=0.9978794455528259 relerr=0.0 acc=90.34
+   eval:dopri5_None finite=True  maxH=0.9978798627853394 relerr=1.222187961502641e-06 acc=90.34
+   eval:split_1.0   finite=True  maxH=0.9983256459236145 relerr=0.06143743172287941 acc=89.74
+   eval:split_0.01  finite=True  maxH=0.9978816509246826 relerr=0.0006063139881007373 acc=90.34
+   train:rk4_1.0    finite=False maxH=None relerr=None acc=-
+   train:rk4_0.5    finite=True  maxH=0.9976431131362915 relerr=0.00023495113418903202 acc=-
+   train:rk4_0.25   finite=True  maxH=0.9976676106452942 relerr=7.5628922786563635e-06 acc=-
+   train:rk4_0.05   finite=True  maxH=0.9976682662963867 relerr=2.0026874381073867e-07 acc=-
+   train:rk4_0.01   finite=True  maxH=0.9976683259010315 relerr=0.0 acc=-
+   train:dopri5_None finite=True  maxH=0.997668445110321 relerr=9.256134489987744e-07 acc=-
+   train:split_1.0  finite=True  maxH=0.9978569149971008 relerr=0.09279056638479233 acc=-
+   train:split_0.01 finite=True  maxH=0.9976703524589539 relerr=0.0009165878873318434 acc=-
+torch.Size([2485])
+tensor(1192)
+torch.Size([2485])
+tensor(796)
+torch.Size([2485])
+tensor(497)
+torch.Size([2485, 1433])
+== Cora train=rk4 h=0.25 split=2 acc=88.73 max|x0| eval=1.71 train=1.84 bmax=0.71
+   eval:rk4_1.0     finite=False maxH=None relerr=None acc=-
+   eval:rk4_0.5     finite=True  maxH=0.9971218705177307 relerr=0.00023734787828288972 acc=88.73
+   eval:rk4_0.25    finite=True  maxH=0.9971165060997009 relerr=8.543534931959584e-06 acc=88.73
+   eval:rk4_0.05    finite=True  maxH=0.9971163272857666 relerr=1.8244188026983466e-07 acc=88.73
+   eval:rk4_0.01    finite=True  maxH=0.997116208076477 relerr=0.0 acc=88.73
+   eval:dopri5_None finite=True  maxH=0.9971165657043457 relerr=6.693422278658545e-07 acc=88.73
+   eval:split_1.0   finite=True  maxH=0.9975343346595764 relerr=0.06040682643651962 acc=88.53
+   eval:split_0.01  finite=True  maxH=0.9971182346343994 relerr=0.000598384824115783 acc=88.73
+   train:rk4_1.0    finite=False maxH=None relerr=None acc=-
+   train:rk4_0.5    finite=True  maxH=0.9975056052207947 relerr=0.00026629155036062 acc=-
+   train:rk4_0.25   finite=True  maxH=0.9974998831748962 relerr=1.6577059795963578e-05 acc=-
+   train:rk4_0.05   finite=True  maxH=0.9974995851516724 relerr=1.9790799399288517e-07 acc=-
+   train:rk4_0.01   finite=True  maxH=0.9974997043609619 relerr=0.0 acc=-
+   train:dopri5_None finite=True  maxH=0.9974997639656067 relerr=3.729541901975608e-07 acc=-
+   train:split_1.0  finite=True  maxH=0.9981983304023743 relerr=0.09178416430950165 acc=-
+   train:split_0.01 finite=True  maxH=0.9975008964538574 relerr=0.000906919885892421 acc=-
+/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch_geometric/data/in_memory_dataset.py:157: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch/cuda/__init__.py:789: UserWarning: Can't initialize NVML
+  warnings.warn("Can't initialize NVML")
+/home/hong_jy_sc/ksc-gread/GREAD/src/function_gread.py:34: FutureWarning: `nn.init.uniform` is now deprecated in favor of `nn.init.uniform_`.
+  uniform(self.b_W, a=-1, b=1)
+/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torchdiffeq/_impl/misc.py:11: UserWarning: Dopri5Solver: Unexpected arguments {'step_size': 1.0}
+  warnings.warn('{}: Unexpected arguments {}'.format(solver.__class__.__name__, unused_kwargs))
+[KeOps] Warning : CUDA libraries not found or could not be loaded; Switching to CPU only.
+torch.Size([19717])
+tensor(9463)
+torch.Size([19717])
+tensor(6310)
+torch.Size([19717])
+tensor(3944)
+torch.Size([19717, 500])
+== Pubmed train=split h=1.0 split=0 acc=89.96 max|x0| eval=2.75 train=5.47 bmax=1.20
+   eval:rk4_1.0     finite=False maxH=None relerr=None acc=-
+   eval:rk4_0.5     finite=False maxH=None relerr=None acc=-
+   eval:rk4_0.25    finite=False maxH=None relerr=None acc=-
+   eval:rk4_0.05    finite=True  maxH=1.016884207725525 relerr=2.2590192827465216e-07 acc=90.14
+   eval:rk4_0.01    finite=True  maxH=1.0168852806091309 relerr=0.0 acc=90.14
+   eval:dopri5_None finite=True  maxH=1.0169093608856201 relerr=7.17656803317368e-07 acc=90.14
+   eval:split_1.0   finite=True  maxH=1.0169732570648193 relerr=0.03865310177206993 acc=89.96
+   eval:split_0.01  finite=True  maxH=1.016891360282898 relerr=0.00035806206869892776 acc=90.14
+   train:rk4_1.0    finite=False maxH=None relerr=None acc=-
+   train:rk4_0.5    finite=False maxH=None relerr=None acc=-
+   train:rk4_0.25   finite=False maxH=None relerr=None acc=-
+   train:rk4_0.05   finite=False maxH=None relerr=None acc=-
+   train:rk4_0.01   finite=True  maxH=1.0319181680679321 relerr=0.0 acc=-
+   train:dopri5_None finite=True  maxH=1.0319232940673828 relerr=1.0720868885982782e-06 acc=-
+   train:split_1.0  finite=True  maxH=1.0391911268234253 relerr=0.06439197808504105 acc=-
+   train:split_0.01 finite=True  maxH=1.0320080518722534 relerr=0.0006199759081937373 acc=-
+torch.Size([19717])
+tensor(9463)
+torch.Size([19717])
+tensor(6310)
+torch.Size([19717])
+tensor(3944)
+torch.Size([19717, 500])
+== Pubmed train=split h=1.0 split=1 acc=90.11 max|x0| eval=2.28 train=4.22 bmax=1.14
+   eval:rk4_1.0     finite=False maxH=None relerr=None acc=-
+   eval:rk4_0.5     finite=False maxH=None relerr=None acc=-
+   eval:rk4_0.25    finite=False maxH=None relerr=None acc=-
+   eval:rk4_0.05    finite=True  maxH=0.9947682023048401 relerr=2.3501500834299804e-07 acc=90.34
+   eval:rk4_0.01    finite=True  maxH=0.9947691559791565 relerr=0.0 acc=90.34
+   eval:dopri5_None finite=True  maxH=0.9948095679283142 relerr=9.550478807796026e-07 acc=90.34
+   eval:split_1.0   finite=True  maxH=0.995158851146698 relerr=0.03618998825550079 acc=90.11
+   eval:split_0.01  finite=True  maxH=0.994772732257843 relerr=0.00033542478922754526 acc=90.34
+   train:rk4_1.0    finite=False maxH=None relerr=None acc=-
+   train:rk4_0.5    finite=False maxH=None relerr=None acc=-
+   train:rk4_0.25   finite=False maxH=None relerr=None acc=-
+   train:rk4_0.05   finite=True  maxH=1.0152767896652222 relerr=3.0233533834689297e-05 acc=-
+   train:rk4_0.01   finite=True  maxH=1.0152766704559326 relerr=0.0 acc=-
+   train:dopri5_None finite=True  maxH=1.0152782201766968 relerr=7.916568165455828e-07 acc=-
+   train:split_1.0  finite=True  maxH=1.0182464122772217 relerr=0.06226281821727753 acc=-
+   train:split_0.01 finite=True  maxH=1.0153121948242188 relerr=0.0005944879958406091 acc=-
+torch.Size([19717])
+tensor(9463)
+torch.Size([19717])
+tensor(6310)
+torch.Size([19717])
+tensor(3944)
+torch.Size([19717, 500])
+== Pubmed train=split h=1.0 split=2 acc=89.60 max|x0| eval=2.08 train=3.68 bmax=1.14
+   eval:rk4_1.0     finite=False maxH=None relerr=None acc=-
+   eval:rk4_0.5     finite=False maxH=None relerr=None acc=-
+   eval:rk4_0.25    finite=True  maxH=0.9945500493049622 relerr=5.098611654830165e-05 acc=90.04
+   eval:rk4_0.05    finite=True  maxH=0.9962180852890015 relerr=2.3197029008770187e-07 acc=90.04
+   eval:rk4_0.01    finite=True  maxH=0.9962180852890015 relerr=0.0 acc=90.04
+   eval:dopri5_None finite=True  maxH=0.9962384700775146 relerr=7.818144354132528e-07 acc=90.04
+   eval:split_1.0   finite=True  maxH=0.9968596696853638 relerr=0.03817208483815193 acc=89.60
+   eval:split_0.01  finite=True  maxH=0.9962206482887268 relerr=0.0003535085415933281 acc=90.04
+   train:rk4_1.0    finite=False maxH=None relerr=None acc=-
+   train:rk4_0.5    finite=False maxH=None relerr=None acc=-
+   train:rk4_0.25   finite=False maxH=None relerr=None acc=-
+   train:rk4_0.05   finite=True  maxH=1.0153659582138062 relerr=7.639344403287396e-06 acc=-
+   train:rk4_0.01   finite=True  maxH=1.0153864622116089 relerr=0.0 acc=-
+   train:dopri5_None finite=True  maxH=1.015400767326355 relerr=6.701400820929848e-07 acc=-
+   train:split_1.0  finite=True  maxH=1.021223545074463 relerr=0.06488925963640213 acc=-
+   train:split_0.01 finite=True  maxH=1.0154509544372559 relerr=0.0006185877718962729 acc=-
