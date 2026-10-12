@@ -1,0 +1,33 @@
+digraph G {
+  graph [bgcolor=white, pad=0.3, fontname="Noto Sans"];
+  node [shape=plaintext, fontname="Noto Sans"];
+  T [label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="8" CELLPADDING="10">
+ <TR><TD COLSPAN="9"><FONT POINT-SIZE="26"><B>Study overview: two causes of divergence in GREAD</B></FONT></TD></TR>
+ <TR>
+  <TD></TD>
+  <TD><FONT POINT-SIZE="17" COLOR="#555555"><B>CAUSE</B></FONT></TD><TD></TD>
+  <TD><FONT POINT-SIZE="17" COLOR="#555555"><B>DIAGNOSIS (same weights)</B></FONT></TD><TD></TD>
+  <TD><FONT POINT-SIZE="17" COLOR="#555555"><B>PROPOSED FIX</B></FONT></TD><TD></TD>
+  <TD><FONT POINT-SIZE="17" COLOR="#555555"><B>EVIDENCE</B></FONT></TD></TR>
+ <TR>
+  <TD BGCOLOR="#1f6fb2" STYLE="rounded"><FONT POINT-SIZE="19" COLOR="white"><B>Dynamical<BR/>instability</B></FONT></TD>
+  <TD BGCOLOR="#e8f1fa" STYLE="rounded" BORDER="1" COLOR="#1f6fb2"><FONT POINT-SIZE="18"><B>Finite-time blow-up</B></FONT><BR/><FONT POINT-SIZE="15">the exact solution itself → ∞<BR/>(Allen-Cahn: b &lt; 0 and |x₀| &gt; 1)</FONT></TD>
+  <TD><FONT POINT-SIZE="26" COLOR="#888888">→</FONT></TD>
+  <TD BGCOLOR="#e8f1fa" STYLE="rounded" BORDER="1" COLOR="#1f6fb2"><FONT POINT-SIZE="18"><B>Reference also blows up</B></FONT><BR/><FONT POINT-SIZE="15">an accurate solver fails too<BR/>⇒ change the <B>model</B></FONT></TD>
+  <TD><FONT POINT-SIZE="26" COLOR="#888888">→</FONT></TD>
+  <TD BGCOLOR="#e9f6ec" STYLE="rounded" BORDER="1" COLOR="#2e8b57"><FONT POINT-SIZE="18"><B>Sign constraint</B></FONT><BR/><FONT POINT-SIZE="15">b = softplus(w) &gt; 0<BR/>no blow-up (Theorem 1)</FONT></TD>
+  <TD><FONT POINT-SIZE="26" COLOR="#888888">→</FONT></TD>
+  <TD BGCOLOR="#fdf3e3" STYLE="rounded" BORDER="1" COLOR="#c07a12"><FONT POINT-SIZE="18"><B>25 / 25 elements</B></FONT><BR/><FONT POINT-SIZE="15">predicted blow-ups all occur<BR/>(median timing error 0.014)</FONT></TD></TR>
+ <TR>
+  <TD BGCOLOR="#b8860b" STYLE="rounded"><FONT POINT-SIZE="19" COLOR="white"><B>Numerical<BR/>instability</B></FONT></TD>
+  <TD BGCOLOR="#fdf8e4" STYLE="rounded" BORDER="1" COLOR="#b8860b"><FONT POINT-SIZE="18"><B>Step outside stability region</B></FONT><BR/><FONT POINT-SIZE="15">exact solution is finite but stiff<BR/>λ = b(1 − 3x²) for large |x|</FONT></TD>
+  <TD><FONT POINT-SIZE="26" COLOR="#888888">→</FONT></TD>
+  <TD BGCOLOR="#fdf8e4" STYLE="rounded" BORDER="1" COLOR="#b8860b"><FONT POINT-SIZE="18"><B>Reference is finite</B></FONT><BR/><FONT POINT-SIZE="15">only large steps go non-finite<BR/>⇒ change the <B>solver</B></FONT></TD>
+  <TD><FONT POINT-SIZE="26" COLOR="#888888">→</FONT></TD>
+  <TD BGCOLOR="#e9f6ec" STYLE="rounded" BORDER="1" COLOR="#2e8b57"><FONT POINT-SIZE="18"><B>Exact-flow splitting</B></FONT><BR/><FONT POINT-SIZE="15">reaction in closed form + diffusion<BR/>bounded for any stiffness (Theorem 2)</FONT></TD>
+  <TD><FONT POINT-SIZE="26" COLOR="#888888">→</FONT></TD>
+  <TD BGCOLOR="#fdf3e3" STYLE="rounded" BORDER="1" COLOR="#c07a12"><FONT POINT-SIZE="18"><B>Trains where RK4 fails</B></FONT><BR/><FONT POINT-SIZE="15">Cora · Pubmed · Film<BR/>+5.47 pp over Euler on Film</FONT></TD></TR>
+ <TR><TD COLSPAN="9" BGCOLOR="#fdecec" STYLE="rounded" BORDER="1" COLOR="#c0392b"><FONT POINT-SIZE="17" COLOR="#a93226"><B>⚠ False stability</B></FONT><FONT POINT-SIZE="16">  —  a coarse explicit solver can hide a blow-up behind finite values:<BR/>GREAD-AC trained with Euler h = 1 reaches 87.7% on Cora, yet the same weights blow up under an accurate solver.</FONT></TD></TR>
+</TABLE>>];
+}

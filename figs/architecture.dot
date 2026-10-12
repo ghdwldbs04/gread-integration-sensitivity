@@ -1,0 +1,29 @@
+digraph G {
+  graph [rankdir=LR, bgcolor=white, pad=0.3, nodesep=0.3, ranksep=0.35,
+         label=<<FONT POINT-SIZE="26"><B>Architecture: GREAD-AC with the proposed solver</B></FONT>>, labelloc=t, fontname="Noto Sans"];
+  node [shape=box, style="rounded,filled", fillcolor="#f2f2f2", color="#777777", penwidth=1.3, fontname="Noto Sans", margin="0.2,0.12"];
+  edge [color="#666666", penwidth=1.8, arrowsize=1.0, fontname="Noto Sans"];
+  IN [label=<<FONT POINT-SIZE="18"><B>Input</B></FONT><BR/><FONT POINT-SIZE="14">node features X<BR/>+ graph edges</FONT>>];
+  ENC [label=<<FONT POINT-SIZE="18"><B>Encoder</B></FONT><BR/><FONT POINT-SIZE="14">linear: X → H(0)</FONT>>];
+  DEC [label=<<FONT POINT-SIZE="18"><B>Decoder</B></FONT><BR/><FONT POINT-SIZE="14">linear → class logits</FONT>>];
+  Y [label=<<FONT POINT-SIZE="18"><B>Prediction</B></FONT><BR/><FONT POINT-SIZE="14">ŷ</FONT>>];
+  ODE [shape=plaintext, style="", margin=0, label=<<TABLE BORDER="2" COLOR="#1f6fb2" BGCOLOR="#f7fbff" STYLE="rounded" CELLBORDER="0" CELLSPACING="6" CELLPADDING="8">
+    <TR><TD COLSPAN="6"><FONT POINT-SIZE="20"><B>ODE block</B></FONT><FONT POINT-SIZE="18">   dH/dt = α(A − I)H + b ⊙ (H − H³),   t ∈ [0, T]</FONT></TD></TR>
+    <TR>
+     <TD BGCOLOR="#e9f6ec" STYLE="rounded" BORDER="1" COLOR="#2e8b57"><FONT POINT-SIZE="15"><B>Reaction coef. b</B></FONT><BR/><FONT POINT-SIZE="13">b = softplus(w) &gt; 0</FONT></TD><TD></TD>
+     <TD BGCOLOR="#e8f1fa" STYLE="rounded" BORDER="1" COLOR="#1f6fb2"><FONT POINT-SIZE="15"><B>Attention A</B></FONT><BR/><FONT POINT-SIZE="13">≥ 0, rows sum to 1, once per pass</FONT></TD><TD></TD>
+     <TD BGCOLOR="#e9f6ec" STYLE="rounded" BORDER="1" COLOR="#2e8b57"><FONT POINT-SIZE="15"><B>Reaction coef. b</B></FONT><BR/><FONT POINT-SIZE="13">(same b)</FONT></TD><TD></TD></TR>
+    <TR><TD><FONT POINT-SIZE="22" COLOR="#2e8b57">↓</FONT></TD><TD></TD><TD><FONT POINT-SIZE="22" COLOR="#1f6fb2">↓</FONT></TD><TD></TD><TD><FONT POINT-SIZE="22" COLOR="#2e8b57">↓</FONT></TD><TD></TD></TR>
+    <TR>
+     <TD BGCOLOR="#e9f6ec" STYLE="rounded" BORDER="2" COLOR="#2e8b57"><FONT POINT-SIZE="18"><B>① Reaction</B></FONT><BR/><FONT POINT-SIZE="14">half step dt/2<BR/>exact closed form</FONT></TD>
+     <TD><FONT POINT-SIZE="26" COLOR="#555555">→</FONT></TD>
+     <TD BGCOLOR="#e8f1fa" STYLE="rounded" BORDER="2" COLOR="#1f6fb2"><FONT POINT-SIZE="18"><B>② Diffusion</B></FONT><BR/><FONT POINT-SIZE="14">full step dt, explicit Euler<BR/>H ← H + dt·α(AH − H)</FONT></TD>
+     <TD><FONT POINT-SIZE="26" COLOR="#555555">→</FONT></TD>
+     <TD BGCOLOR="#e9f6ec" STYLE="rounded" BORDER="2" COLOR="#2e8b57"><FONT POINT-SIZE="18"><B>③ Reaction</B></FONT><BR/><FONT POINT-SIZE="14">half step dt/2<BR/>exact closed form</FONT></TD>
+     <TD><FONT POINT-SIZE="15" COLOR="#555555"><B>↻ × n</B><BR/>n = T / dt</FONT></TD></TR>
+    <TR><TD COLSPAN="6" BGCOLOR="#fff8e1" STYLE="rounded" BORDER="1" COLOR="#c07a12"><FONT POINT-SIZE="15"><B>Guarantee (Theorem 2)</B>   if b &gt; 0 and 0 ≤ dt·α ≤ 1, then  ‖H(n)‖∞ ≤ max(‖H(0)‖∞, 1)  for any stiffness of b</FONT></TD></TR>
+   </TABLE>>];
+  IN -> ENC -> ODE;
+  ODE -> DEC [label=<<FONT POINT-SIZE="14">H(T)</FONT>>];
+  DEC -> Y;
+}
