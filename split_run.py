@@ -1,10 +1,12 @@
 """
-split_run.py — 제안법: 부호 제약 AC 반응항(b = softplus(w) > 0) + 정확해 Strang 분할 적분기. GREAD/src 에서 실행.
+split_run.py — 제안법: 부호 제약 AC 반응항(b = softplus(w) > 0) + 정확해 Strang형 분할 적분기. GREAD/src 에서 실행.
 
 한 step(dt):  반응 dt/2 (정확해) -> 확산 dt (명시적 Euler) -> 반응 dt/2 (정확해)
   AC 반응 dx/dt = b(x - x^3) 의 정확해: x(t) = x e^{bt} / sqrt(1 + x^2 (e^{2bt} - 1))
-  b > 0 이고 dt*alpha <= 1 이면 ||H_n||_inf <= max(||H_0||_inf, 1)  (step 크기와 무관한 이산 최대값 원리)
-  b < 0 이면 정확해가 연속 해의 폭주 시각에 정확히 무한대가 된다 (거짓 안정을 만들지 않음).
+  b > 0 이고 0 <= dt*alpha <= 1 이면 ||H_n||_inf <= max(||H_0||_inf, 1)  (반응항 강성과 무관한 이산 최대값 원리.
+  확산 step 조건 dt*alpha <= 1 은 남는다. GREAD 는 alpha = sigmoid(.) in (0,1) 이므로 dt <= 1 이면 충분)
+  b < 0 이면 반응 부분문제의 유한시간 폭주를 정확히 검출한다 (거친 Euler 처럼 유한값으로 통과하지 않음).
+  확산 단계가 Euler 이므로 전체는 1차 정확도 (Strang형 분할이지만 2차가 아님).
 학습 후 같은 가중치를 기준해(RK4 h=--ref_h)로 다시 풀어 정확도·유한성도 기록한다.
 사용: python split_run.py --beta_pos --step_size 1.0
 """
