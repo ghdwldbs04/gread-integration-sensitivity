@@ -1,274 +1,274 @@
-# 연속 깊이 신경망 학습 발산의 두 원인과 안정한 반응-확산 적분
+# Two Causes of Divergence in Continuous-Depth Networks and a Stable Reaction-Diffusion Integrator
 
-**동역학적·수치적 불안정성의 구분**
-*Two Causes of Divergence in Continuous-Depth Networks and a Stable Reaction-Diffusion Integrator*
+**Distinguishing dynamical from numerical instability, exposing solver-induced false stability, and fixing both.**
 
-반응-확산 GNN([GREAD](https://github.com/jeongwhanchoi/GREAD), ICML 2023)과 그래프가 없는 Neural ODE에서, 학습이 NaN으로 발산하는 원인을 **연속 방정식 자체의 폭주(동역학적)** 와 **적분기의 안정 영역 이탈(수치적)** 로 나누어 예측·검증하고, 두 원인을 각각 제거하는 적분 방법(부호 제약 + 정확해 분할 적분)을 제안한 실험 코드입니다. KSC 2026 학부생 논문(심사 중) 실험을 모두 재현할 수 있습니다.
+This repository contains the full experimental code for a study of why training of continuous-depth models diverges (NaN). Using a reaction-diffusion GNN ([GREAD](https://github.com/jeongwhanchoi/GREAD), ICML 2023) and a graph-free Neural ODE, we separate divergence into **finite-time blow-up of the continuous equation (dynamical)** and **step sizes outside the solver's stability region (numerical)**, predict and verify each, and propose an integration scheme that removes both (**sign constraint + exact-flow splitting**). Every number in the accompanying paper (KSC 2026, undergraduate track, under review) can be reproduced from this repository.
 
-**핵심 결과**
+**Key findings**
 
-- **거친 적분기로 얻은 높은 정확도는 학습된 모델이 연속 ODE의 정상적인 해라는 것을 보장하지 않는다.** Euler h=1로 87.7%를 낸 GREAD-AC와 73.0%를 낸 cubic Neural ODE는, 같은 가중치를 정밀 적분기로 풀면 연속 해가 유한 시간에 폭주한다(거짓 안정).
-- GREAD 반응항 8개 설정 중 폭주 없음이 이론적으로 보장되는 4개는 모두 정밀 적분으로 학습되었고, 스칼라 조건이 폭주를 예측한 4개는 모두 발산했다.
-- 해석해가 폭주를 예측한 원소 25개(159,040개 중)는 반응만 남긴 모델에서 정확히 그 25개가 폭주했고, 시각 오차 중앙값은 0.014였다.
-- 같은 체크포인트에서 step만 줄이면 거짓 안정이 사라지고, 폭주 시각이 기준해(t = 2.66)로 수렴한다.
-- 동역학이 안정한 반응항(BS, 확산)은 Euler h=2(NFE 2)와 RK4 h=0.25(NFE 64)의 정확도가 같았다.
-- **제안법**(부호 제약 + 정확해 분할 적분)은 같은 부호 제약에서 RK4가 10/10 발산하는 Cora·Pubmed 설정과 강성이 극단적인 Film에서 NFE 1–4로 모두 학습되었고, 같은 가중치의 기준해와 정확도 차이는 0.23%p 이하였다.
+- **High accuracy obtained with a coarse solver does not guarantee that the trained model is a valid solution of the continuous ODE.** GREAD-AC trained with Euler h=1 (87.7%) and a cubic Neural ODE (73.0%) both blow up in finite time when the same weights are integrated accurately (*false stability*).
+- Of 8 GREAD reaction settings, the 4 that are provably blow-up-free all trained with accurate solvers, and the 4 predicted to blow up by the scalar condition all diverged.
+- The closed-form solution predicted blow-up for 25 of 159,040 (node, channel) elements; in the reaction-only model exactly those 25 blew up (median timing error 0.014).
+- Shrinking only the step on the same checkpoint removes false stability, and the observed blow-up time converges to the reference (t = 2.66).
+- Dynamically stable reactions (BS, diffusion) are solver-insensitive: Euler h=2 (NFE 2) matches RK4 h=0.25 (NFE 64).
+- **Proposed method** (sign constraint + exact-flow splitting): trains every split on Cora and Pubmed settings where RK4 diverges 10/10, and on extremely stiff Film, with 1–4 function evaluations per forward pass. Accuracy differs from an accurate re-integration of the same weights by at most 0.23 pp.
 
 <p align="center">
   <img src="figs/overview.png" width="85%">
 </p>
 
-## 목차
+## Contents
 
-1. [문제 설정](#1-문제-설정)
-2. [이론: 두 원인을 가르는 조건](#2-이론-두-원인을-가르는-조건)
-3. [제안법: 부호 제약과 정확해 분할 적분](#3-제안법-부호-제약과-정확해-분할-적분)
-4. [실험 구성](#4-실험-구성)
-5. [결과](#5-결과)
-6. [저장소 구조](#6-저장소-구조)
-7. [재현 방법](#7-재현-방법)
-8. [한계와 후속 연구](#8-한계와-후속-연구)
-9. [참고문헌](#9-참고문헌)
+1. [Problem](#1-problem)
+2. [Theory: telling the two causes apart](#2-theory-telling-the-two-causes-apart)
+3. [Proposed method: sign constraint and exact-flow splitting](#3-proposed-method-sign-constraint-and-exact-flow-splitting)
+4. [Experimental setup](#4-experimental-setup)
+5. [Results](#5-results)
+6. [Repository layout](#6-repository-layout)
+7. [Reproduction](#7-reproduction)
+8. [Limitations and future work](#8-limitations-and-future-work)
+9. [References](#9-references)
 
-## 1. 문제 설정
+## 1. Problem
 
-연속 깊이 신경망은 은닉 상태를 ODE `dh/dt = f_θ(h)`로 정의하고 수치 적분기로 순전파를 계산한다. 학습이 NaN으로 발산하면 보통 step을 줄이거나 적분기를 바꾸지만, 발산에는 처방이 다른 두 원인이 있다.
+Continuous-depth networks define the hidden state through an ODE `dh/dt = f_θ(h)` and compute the forward pass with a numerical solver. When training diverges, the usual fix is to shrink the step or swap the solver. But divergence has two causes with different remedies.
 
-| | 동역학적 불안정성 | 수치적 불안정성 |
+| | Dynamical instability | Numerical instability |
 |---|---|---|
-| 무슨 일이 일어나나 | 연속 해가 적분 구간 안에서 무한대로 간다 | 해는 유한하지만 step이 적분기 안정 영역을 벗어나 오차가 증폭된다 |
-| step을 줄이면 | 해결되지 않는다 | 해결된다 |
-| 처방 | 모델을 바꾼다(반응 계수 부호, 적분 시간 T) | step을 줄이거나 적응형·암시적 적분기를 쓴다 |
+| What happens | The continuous solution goes to infinity inside the integration interval | The solution is finite, but the step leaves the solver's stability region and errors are amplified |
+| Shrinking the step | Does not help | Fixes it |
+| Remedy | Change the model (sign of reaction coefficients, integration time T) | Smaller step, adaptive or implicit solver |
 
-여기에 세 번째 현상이 겹친다. **거친 명시적 적분기는 동역학적 폭주를 가릴 수 있다.** [0, T]를 N = ⌈T/h⌉번의 다항 사상으로 근사하므로, N이 작으면 연속 해가 폭주해도 이산 해는 유한하게 남는다(N = 1이면 항상 유한). 학습은 정상처럼 보이지만 모델은 특정 이산화에 묶인 함수가 된다. 이 저장소는 이를 **거짓 안정(false stability)** 이라고 부른다.
+A third phenomenon sits on top: **a coarse explicit solver can hide dynamical blow-up.** It approximates [0, T] by N = ⌈T/h⌉ polynomial maps, so with small N the discrete solution stays finite even when the continuous one blows up (always finite for N = 1). Training looks normal, but the model becomes a function tied to one particular discretization. We call this **false stability**.
 
-## 2. 이론: 두 원인을 가르는 조건
+## 2. Theory: telling the two causes apart
 
-다루는 벡터장은 선형 이하로 자라는 항 g와 채널별 다항 반응항의 합이다. GREAD에서 g는 확산항 α(A − I)H, 일반 Neural ODE에서는 tanh MLP다.
+We consider vector fields made of a term g that grows at most linearly plus a channel-wise polynomial reaction. In GREAD, g is the diffusion α(A − I)H; in a plain Neural ODE, it is a tanh MLP.
 
 ```text
 dh/dt = g(h) + b ⊙ r(h),    ‖g(h)‖ ≤ A + B‖h‖
 ```
 
-**동역학적 불안정성.** r = 0이면 Grönwall 부등식에 의해 해는 유한 시간에 폭주하지 않는다(확산, BS, tanh MLP). 다항 반응항이 있으면 폭주 여부는 최고차항의 부호와 초기 상태의 영역이 정한다.
+**Dynamical instability.** If r = 0, Grönwall's inequality rules out finite-time blow-up (diffusion, BS, tanh MLP). With a polynomial reaction, blow-up is decided by the sign of the leading term and the region of the initial state.
 
-| 반응항 | r(x) | b < 0 | b > 0 |
+| Reaction | r(x) | b < 0 | b > 0 |
 |---|---|---|---|
-| Allen-Cahn (AC) | x − x³ | \|x₀\| > 1이면 폭주 | 폭주 없음 |
-| Fisher (F) | x − x² | x₀ > 1이면 폭주 | x₀ < 0이면 폭주 |
-| Zeldovich (Z) | x² − x³ | x₀ < 0 또는 x₀ > 1이면 폭주 | 폭주 없음 |
+| Allen-Cahn (AC) | x − x³ | blows up if \|x₀\| > 1 | no blow-up |
+| Fisher (F) | x − x² | blows up if x₀ > 1 | blows up if x₀ < 0 |
+| Zeldovich (Z) | x² − x³ | blows up if x₀ < 0 or x₀ > 1 | no blow-up |
 
-AC에서 b < 0, |x₀| > 1이면 스칼라 폭주 시간은 다음과 같다.
+For AC with b < 0 and |x₀| > 1, the scalar blow-up time is
 
 ```text
 t* = ln( x₀² / (x₀² − 1) ) / (2|b|)
 ```
 
-위 표는 확산을 무시한 스칼라 조건이라 전체 시스템에 대해서는 **예측**으로만 쓴다. 결합된 계에서는 확산이 폭주를 늦추거나 막을 수도 있다(예: 두 노드 x₁ = u, x₂ = −u, b = −1, α = 1이면 du/dt = u³ − 3u로, |u₀| < √3이면 폭주하지 않는다).
+The table ignores diffusion, so for the full system it is used only as a **prediction**. In a coupled system diffusion can delay or even prevent blow-up (e.g. two nodes x₁ = u, x₂ = −u with b = −1, α = 1 give du/dt = u³ − 3u, which does not blow up for |u₀| < √3).
 
-**정리 1 (그래프 전체의 폭주 하한).** GREAD는 어텐션 A를 적분 전에 한 번 계산하고 계수가 채널별이므로 채널마다 독립인 계 dh/dt = α(A − I)h + b·r(h)가 된다. α ≥ 0이고(GREAD는 α = sigmoid(·)) Cora·Film의 A는 행별 softmax로 정규화된 비음수 행 확률행렬이므로, M(t) = ‖h(t)‖∞의 상우 Dini 미분은 D⁺M ≤ b(M − M³)를 만족한다(최댓값을 갖는 노드가 바뀌는 순간 M은 미분 불가능할 수 있다). 따라서 b > 0이면 ‖h(t)‖∞ ≤ max(M(0), 1)이고, b < 0이면 M(0) ≤ 1일 때 폭주가 없으며 폭주하더라도 그 시각은 t*(M(0), b) 이후다. 즉 스칼라 t*는 전체 계 폭주 시각의 **하한**일 뿐이다.
- 반면 b > 0인 AC·Zeldovich는 x·b·r(x)가 위로 유계(AC ≤ b/4, Z ≤ 27b/256)다. GREAD는 어텐션 가중치를 적분 전에 한 번 계산하므로 적분 중 확산항이 H에 선형이다. 따라서 ⟨H, f(H)⟩ ≤ a + c‖H‖²가 성립하고, 확산을 포함한 전체 시스템에서도 유한시간 폭주가 없음이 **보장**된다.
+**Theorem 1 (lower bound on graph-level blow-up time).** GREAD computes the attention A once before integration and uses channel-wise coefficients, so each channel is an independent system dh/dt = α(A − I)h + b·r(h). Since α ≥ 0 (GREAD uses α = sigmoid(·)) and on Cora and Film A is a row-wise softmax, i.e. a nonnegative row-stochastic matrix, the upper right Dini derivative of M(t) = ‖h(t)‖∞ satisfies D⁺M ≤ b(M − M³) (M may be non-differentiable when the maximizing node changes). Hence for b > 0, ‖h(t)‖∞ ≤ max(M(0), 1); for b < 0 there is no blow-up if M(0) ≤ 1, and any blow-up happens no earlier than t*(M(0), b). The scalar t* is therefore only a **lower bound** on the blow-up time of the full system.
 
-**수치적 불안정성.** 해가 유한해도 선형화 고유값 λ에 대해 hλ가 안정 영역을 벗어나면 오차가 증폭된다. 실수축에서 Euler는 −2 ≤ hλ ≤ 0, 고전 RK4는 −2.785 ≤ hλ ≤ 0이다. AC에서 λ = b(1 − 3x²)이므로 b > 0으로 폭주를 없애도 |x|가 크면 강성(stiff)이 되어 큰 step에서 발산할 수 있다.
+For b > 0, AC and Zeldovich also satisfy a one-sided bound x·b·r(x) ≤ b/4 (AC) and ≤ 27b/256 (Z). Because the diffusion term is linear in H during integration, ⟨H, f(H)⟩ ≤ a + c‖H‖² holds, which **guarantees** no finite-time blow-up for the full system including diffusion.
 
-**3단계 진단 절차.**
+**Numerical instability.** Even with a finite solution, errors grow when hλ leaves the stability region for a linearization eigenvalue λ. On the real axis this is −2 ≤ hλ ≤ 0 for Euler and −2.785 ≤ hλ ≤ 0 for classical RK4. For AC, λ = b(1 − 3x²), so even with b > 0 (no blow-up) the system becomes stiff for large |x| and can diverge at large steps.
 
-1. 발산하거나 거친 적분기로만 학습되면, 같은 가중치로 기준 적분(작은 step 또는 적응형)을 [0, T]에서 구한다.
-2. 기준 해도 폭주하면 동역학적 불안정성이다. 표의 조건과 t*로 폭주 원소를 특정하고, step이 아니라 모델을 바꾼다. 거친 적분기로 학습에 성공했다면 그 결과는 거짓 안정이다.
-3. 기준 해가 유한하고 step을 줄이면 회복되면 수치적 불안정성이다.
+**Three-step diagnosis.**
 
-## 3. 제안법: 부호 제약과 정확해 분할 적분
+1. If training diverges, or succeeds only with a coarse solver, integrate the same weights over [0, T] with a reference solver (small step or adaptive).
+2. If the reference also blows up, the cause is dynamical: locate blow-up elements with the table and t*, and change the model rather than the step. If a coarse solver trained successfully, that result is false stability.
+3. If the reference is finite and a smaller step recovers training, the cause is numerical.
 
-진단에서 AC 발산의 원인은 (1) b < 0 채널의 유한시간 폭주와 (2) b > 0에서도 |x|가 클 때의 강성이었다. 제안법은 둘을 각각 구조적으로 제거한다.
+## 3. Proposed method: sign constraint and exact-flow splitting
 
-1. **부호 제약:** b = softplus(w) > 0. 학습 중 어떤 값에서도 정리 1의 유계 조건을 만족한다.
-2. **정확해 분할 적분:** 한 step을 반응 dt/2 → 확산 dt → 반응 dt/2로 나눈다(Strang형 분할). 반응은 닫힌 해로 정확히 풀고, 확산은 명시적 Euler로 푼다.
+The diagnosis shows that AC diverges for two reasons: (1) finite-time blow-up in channels with b < 0, and (2) stiffness at large |x| even when b > 0. The method removes each one structurally.
+
+1. **Sign constraint:** b = softplus(w) > 0, so the bounded case of Theorem 1 holds for any value reached during training.
+2. **Exact-flow splitting:** each step is split into reaction dt/2 → diffusion dt → reaction dt/2 (a Strang-type splitting). The reaction is solved exactly with its closed form; diffusion uses explicit Euler.
 
 <p align="center">
   <img src="figs/architecture.png" width="95%">
 </p>
 
-GREAD는 인코더 → ODE 블록 → 디코더 구조이고, 제안법은 ODE 블록의 적분기만 교체한다. 어텐션 A는 적분 전에 한 번 계산되므로 적분 중 확산항은 H에 선형이다. 대조군 실험에서는 같은 블록을 Euler·RK4·dopri5(torchdiffeq)로 푼다.
+GREAD is an encoder → ODE block → decoder model; the method only replaces the solver inside the ODE block. Because the attention A is computed once before integration, the diffusion term is linear in H during integration. In control experiments the same block is solved with Euler, RK4 or dopri5 (torchdiffeq).
 
 ```text
 x(t) = x·exp(bt) / sqrt(1 + x²(exp(2bt) − 1))
 ```
 
-**정리 2 (이산 최대값 원리).** b > 0이고 0 ≤ dt·α ≤ 1이면 모든 step에서 ‖H(n)‖∞ ≤ max(‖H(0)‖∞, 1)이다. 반응의 정확해는 |x|를 max(|x|, 1) 이하로 유지하고, 확산 step (1 − dt·α)H + dt·α·AH는 행 합 1인 비음수 행렬의 볼록결합이기 때문이다. 이 보장은 **순전파 상태의 유계성**이며, 역전파·최적화의 안정성은 포함하지 않는다.
+**Theorem 2 (discrete maximum principle).** If b > 0 and 0 ≤ dt·α ≤ 1, every step of the proposed integrator satisfies ‖H(n)‖∞ ≤ max(‖H(0)‖∞, 1). The exact reaction flow keeps |x| ≤ max(|x|, 1), and the diffusion step (1 − dt·α)H + dt·α·AH is a convex combination with a nonnegative row-stochastic matrix. The guarantee is **boundedness of the forward state** only; it does not cover backpropagation or optimization stability.
 
-- 이 성질은 **반응항의 강성과 무관**하다. 남는 조건은 확산 step의 0 ≤ dt·α ≤ 1뿐이다. GREAD는 α = sigmoid(·) ∈ (0, 1)이므로 dt ≤ 1이면 충분하다. step 크기와 완전히 무관한 것은 아니다.
-- 확산 단계가 Euler이므로 전체 정확도는 **1차**다(실측: h를 100배 줄이면 오차 6.2×10⁻² → 6.1×10⁻⁴).
-- b < 0이면 반응 부분문제의 유한시간 폭주를 정확히 검출하므로, 거친 Euler처럼 이를 유한값으로 통과하지 않는다. 확산을 포함한 전체 계가 반드시 폭주한다는 뜻은 아니다.
-- 연산자 분할과 최대값 원리 보존은 수치해석의 고전적 기법이다. 여기서의 기여는 이를 진단된 두 원인에 대응시켜 Neural ODE 학습에 적용하고, 같은 가중치의 정밀 적분으로 검증한 것이다.
+- The property is **independent of the reaction's stiffness**. The only remaining condition is 0 ≤ dt·α ≤ 1 for the diffusion step; since α = sigmoid(·) ∈ (0, 1) in GREAD, dt ≤ 1 suffices. It is not independent of the step size altogether.
+- Because diffusion uses Euler, the scheme is **first-order** overall (measured: shrinking h by 100× reduces the error from 6.2×10⁻² to 6.1×10⁻⁴).
+- For b < 0 the exact flow detects finite-time blow-up of the reaction subproblem exactly, so unlike coarse Euler it does not pass through it with finite values. This does not imply that the full system including diffusion must blow up.
+- Operator splitting and maximum-principle preservation are classical numerical-analysis techniques. The contribution here is matching them to the two diagnosed causes, applying them to Neural ODE training, and validating the result against accurate re-integration of the same weights.
 
-## 4. 실험 구성
+## 4. Experimental setup
 
-| 항목 | 설정 |
+| Item | Setting |
 |---|---|
-| 모델 | GREAD 공개 코드(원본 `run_GNN.py`는 수정하지 않고 별도 러너 `rd_sweep.py` 사용) |
-| 데이터 | Cora, Film, Texas, Wisconsin, Pubmed(제안법 실험, 노드 19,717개) (Geom-GCN 10개 분할) |
-| 하이퍼파라미터 | 데이터셋별 공개 BS 최적값으로 고정(Cora: T = 3.79, 입력 dropout 0.50) |
-| 반응항 | 확산(반응 없음), BS, AC, Fisher, Zeldovich, 그리고 b = softplus(w) > 0 제약 버전 |
-| 반응 계수 | 채널별 b, U(−1, 1) 초기화 |
-| 적분 설정 | Euler h ∈ {0.1, 0.25, 0.5, 1, 1.5, 2}, RK4 h ∈ {0.25, 0.5, 1, 2}, dopri5(tol_scale 1e1, 1e3, 1e5) |
-| 규모 | 약 1,370회 학습 (1차 스윕 390회 + 2차 스윕 984회) |
-| 기준해 | 같은 가중치의 RK4 h = 0.05 (GREAD), 0.01 (Neural ODE) |
-| 발산 판정 | 손실·출력의 NaN, NFE 한도 초과, 적분기 오류 |
-| 재현 확인 | Cora BS 87.85 ± 0.81% (원 논문 88.57 ± 0.66%) |
+| Model | Official GREAD code (the original `run_GNN.py` is untouched; experiments use a separate runner, `rd_sweep.py`) |
+| Data | Cora, Film, Texas, Wisconsin, plus Pubmed (19,717 nodes) for the proposed method; Geom-GCN 10 splits |
+| Hyperparameters | Fixed to the published per-dataset BS optimum (Cora: T = 3.79, input dropout 0.50) to isolate the effect of reaction and solver |
+| Reactions | Diffusion only, BS, AC, Fisher, Zeldovich, and sign-constrained variants b = softplus(w) > 0 |
+| Reaction coefficients | Channel-wise b, initialized from U(−1, 1) |
+| Solvers | Euler h ∈ {0.1, 0.25, 0.5, 1, 1.5, 2}, RK4 h ∈ {0.25, 0.5, 1, 2}, dopri5 (tol_scale 1e1, 1e3, 1e5) |
+| Scale | About 1,370 training runs (sweep 1: 390, sweep 2: 984) |
+| Reference solution | RK4 h = 0.05 (GREAD) or 0.01 (Neural ODE) on the same weights |
+| Divergence criterion | NaN in loss or output, NFE limit exceeded, or solver error |
+| Reproduction check | Cora BS 87.85 ± 0.81% (paper: 88.57 ± 0.66%) |
 
-`rd_sweep.py`가 원본 `run_GNN.py`와 다른 점은 공정성 통제를 위한 것이다.
+`rd_sweep.py` differs from the original `run_GNN.py` only to keep comparisons fair:
 
-- best params를 먼저 적용한 뒤 실험 변수(반응항, 적분기, step, tol, T)를 명령줄 값으로 **마지막에** 덮어쓴다. 원본은 best params가 명령줄 값을 덮어쓴다.
-- 실제 적용된 설정값을 결과 JSON에 그대로 기록한다.
-- 분할마다 torch/numpy 시드를 고정한다.
-- 발산을 잡아서 기록하고 다음 실험으로 넘어간다.
-- 학습·평가 forward NFE, epoch당 시간, Dirichlet energy를 따로 잰다.
+- Best params are applied first, and the experimental variables (reaction, solver, step, tolerance, T) from the command line are applied **last**. In the original, best params overwrite the command line.
+- The settings actually applied are written to the result JSON.
+- torch/numpy seeds are fixed per split.
+- Divergence is caught and recorded, and the sweep moves on.
+- Training and evaluation NFE, time per epoch and Dirichlet energy are measured separately.
 
-**그래프 없는 Neural ODE.** two-moons 분류에서 `Linear(2, 32) → dh/dt = MLP_tanh(h) [+ b ⊙ (h − h³)] → Linear(32, 2)`, T = 4로 학습한다. 비교 모델은 셋이다: 3차항이 없는 MLP, b 부호가 자유로운 cubic, b > 0인 cubic+.
+**Graph-free Neural ODE.** Two-moons classification with `Linear(2, 32) → dh/dt = MLP_tanh(h) [+ b ⊙ (h − h³)] → Linear(32, 2)`, T = 4, 10 seeds. Three models: MLP (no cubic term), cubic (free sign of b) and cubic+ (b > 0).
 
-## 5. 결과
+## 5. Results
 
-### 5.1 이론 예측과 관측 (GREAD, Cora)
+### 5.1 Predictions vs. observations (GREAD, Cora)
 
-테스트 정확도(%, 10분할 평균). '발산'은 10/10 발산. † 전체 시스템에서 폭주 없음 보장, ‡ 스칼라 조건에 의한 폭주 예측.
+Test accuracy (%, mean over 10 splits). "div." = diverged on 10/10 splits. † no blow-up guaranteed for the full system; ‡ blow-up predicted by the scalar condition.
 
-| 반응항 | 이론 | RK4 h=0.25 | dopri5 | RK4 h=1 | Euler h=1 |
+| Reaction | Theory | RK4 h=0.25 | dopri5 | RK4 h=1 | Euler h=1 |
 |---|---|---:|---:|---:|---:|
-| 확산 | 안정† | 87.79 | 87.93 | 87.93 | 87.77 |
-| BS | 안정† | 88.11 | 87.93 | 87.89 | 87.71 |
-| AC | 불안정‡ | 발산 | 발산 | 발산 | 87.71 |
-| AC (b>0) | 안정† | 87.89 | 87.85 | 발산 | 87.91 |
-| F | 불안정‡ | 발산 | 발산 | 발산 | 87.79 |
-| F (b>0) | 불안정‡ | 발산 | 발산 | 발산 | 87.34 |
-| Z | 불안정‡ | 발산 | 발산 | 발산 | 87.36 |
-| Z (b>0) | 안정† | 87.79 | 87.79 | 발산 | 87.34 |
+| Diffusion | stable† | 87.79 | 87.93 | 87.93 | 87.77 |
+| BS | stable† | 88.11 | 87.93 | 87.89 | 87.71 |
+| AC | unstable‡ | div. | div. | div. | 87.71 |
+| AC (b>0) | stable† | 87.89 | 87.85 | div. | 87.91 |
+| F | unstable‡ | div. | div. | div. | 87.79 |
+| F (b>0) | unstable‡ | div. | div. | div. | 87.34 |
+| Z | unstable‡ | div. | div. | div. | 87.36 |
+| Z (b>0) | stable† | 87.79 | 87.79 | div. | 87.34 |
 
-- Fisher는 b > 0으로 제약해도 x < 0 쪽에서 폭주한다는 예측대로 정밀 적분에서 모두 발산했다.
-- AC(b>0)와 Z(b>0)는 RK4 h=1에서만 10/10 발산했고 step을 줄이면 회복됐다. 동역학은 안정하고 강성 때문에 생긴 **수치적** 불안정성이다.
-- 동역학적으로 불안정한 4개 설정은 모두 거친 Euler에서만 학습되었다.
+- As predicted, Fisher blows up on the x < 0 side even with b > 0, and diverged with every accurate solver.
+- AC(b>0) and Z(b>0) diverged 10/10 only at RK4 h=1 and recovered with smaller steps: the dynamics are stable and the failure is **numerical** (stiffness).
+- All 4 dynamically unstable settings trained only with coarse Euler.
 
-### 5.2 폭주의 원소 단위 검증
+### 5.2 Element-level verification of blow-up
 
-AC를 RK4 h=0.5로 8 epoch 학습한 가중치를 고정했다. 스윕에서는 이 설정이 9 epoch에 NaN이 됐다.
+Weights of AC trained with RK4 h=0.5 for 8 epochs were frozen (in the sweep this setting hit NaN at epoch 9).
 
-| 항목 | 결과 |
+| Item | Result |
 |---|---|
-| 해석해 t* < T 로 폭주가 예측된 원소 | 159,040개 중 25개 |
-| 반응만 남긴 모델에서 실제 폭주한 원소 | 정확히 같은 25개 (모두 b < 0, \|x₀\| > 1) |
-| 폭주 시각 예측 오차 중앙값 | 0.014 (시간 격자 0.01 수준) |
-| 확산 포함 전체 모델(정밀 적분 RK4 h=0.01)에서 폭주 징후(\|H\| > 10 또는 비유한값)가 처음 관측된 시각 | t = 2.66 (정리 1의 하한 1.47보다 늦음), 첫 폭주 원소는 예측 집합에 속함 |
-| 같은 가중치, RK4 h=0.5 / Euler h=1 | max\|H\| = ∞ / 2.58 (거친 Euler가 폭주를 가림) |
+| Elements predicted to blow up within T (t* < T) | 25 of 159,040 |
+| Elements that actually blew up in the reaction-only model | exactly the same 25 (all b < 0, \|x₀\| > 1) |
+| Median error of predicted blow-up time | 0.014 (time grid 0.01) |
+| First time a blow-up sign (\|H\| > 10 or non-finite) is observed in the full model under accurate integration (RK4 h=0.01) | t = 2.66, later than the Theorem 1 lower bound 1.47; the first element to blow up belongs to the predicted set |
+| Same weights, RK4 h=0.5 / Euler h=1 | max\|H\| = ∞ / 2.58 (coarse Euler hides the blow-up) |
 
-학습 중 추적에서는 dropout이 켜진 학습 모드의 max|x₀|가 3 epoch에 1을 넘었고, 8 epoch부터 기준해가 폭주했다. Euler h=1 학습은 이 구간을 최대 1.8×10⁸의 유한값으로 통과했다. 거친 Euler로 초반을 지나고 RK4로 바꾸는 학습은 전환 시점(0, 5, 20, 50 epoch)과 무관하게 모두 발산했다.
+During training, max|x₀| in training mode (dropout on) exceeded 1 at epoch 3, and the reference solution blew up from epoch 8. Euler h=1 training passed through this phase with finite values up to 1.8×10⁸. Starting with coarse Euler and switching to RK4 diverged regardless of the switching epoch (0, 5, 20, 50).
 
 <p align="center">
   <img src="results/figs/fig_mechanism.png" width="70%">
 </p>
 
-### 5.3 같은 체크포인트에서 step 줄이기
+### 5.3 Shrinking the step on the same checkpoint
 
-위 체크포인트를 학습 모드 입력(max|x₀| = 1.43)으로 적분하며 |H| > 10이 처음 관측되는 시각을 쟀다.
+The checkpoint above was integrated from training-mode inputs (max|x₀| = 1.43), recording the first time |H| > 10.
 
-| 적분기 | h | 첫 \|H\| > 10 시각 | max\|H(T)\| |
+| Solver | h | First \|H\| > 10 | max\|H(T)\| |
 |---|---:|---:|---:|
-| Euler | 1 | 없음 | 2.58 |
-| Euler | 0.5 | 없음 | 6.14 |
-| Euler | 0.25 | 3.50 | 폭주 |
-| Euler | 0.1 | 3.10 | 폭주 |
-| Euler | 0.05 | 2.85 | 폭주 |
-| Euler | 0.01 | 2.70 | 폭주 |
-| RK4 | 1, 0.5 | 3.0 | 폭주 |
-| RK4 | 0.25 | 2.75 | 폭주 |
-| RK4 | 0.1 | 2.70 | 폭주 |
-| RK4 (기준) | 0.01 | 2.66 | 폭주 |
+| Euler | 1 | none | 2.58 |
+| Euler | 0.5 | none | 6.14 |
+| Euler | 0.25 | 3.50 | blow-up |
+| Euler | 0.1 | 3.10 | blow-up |
+| Euler | 0.05 | 2.85 | blow-up |
+| Euler | 0.01 | 2.70 | blow-up |
+| RK4 | 1, 0.5 | 3.0 | blow-up |
+| RK4 | 0.25 | 2.75 | blow-up |
+| RK4 | 0.1 | 2.70 | blow-up |
+| RK4 (reference) | 0.01 | 2.66 | blow-up |
 
-step을 줄이면 거짓 안정이 사라지고 폭주 시각이 기준해 2.66으로 수렴한다. 같은 가중치의 추론 모드 입력(max|x₀| = 1.09)에서는 모든 설정이 유한(max|H| ≈ 1)했다. 이 체크포인트의 폭주는 dropout으로 커진 학습 모드 상태에서만 생긴다.
+Shrinking the step removes false stability and the observed time converges to the reference value 2.66. On inference-mode inputs (max|x₀| = 1.09) every setting stayed finite (max|H| ≈ 1): for this checkpoint the blow-up only arises from the training-mode state enlarged by dropout.
 
-### 5.4 그래프 없는 Neural ODE (two-moons)
+### 5.4 Graph-free Neural ODE (two-moons)
 
-정확도(%). 괄호는 같은 가중치를 기준해(RK4 h=0.01)로 풀었을 때.
+Accuracy (%). In parentheses: the same weights integrated with the reference solver (RK4 h=0.01).
 
-| 모델 | 이론 | RK4 h ≥ 0.25 | RK4 h=0.1 | dopri5 | Euler h=1 |
+| Model | Theory | RK4 h ≥ 0.25 | RK4 h=0.1 | dopri5 | Euler h=1 |
 |---|---|---:|---:|---:|---:|
-| MLP | 안정 | 97.6 | — | — | 97.0 (72.1) |
-| cubic | 불안정 | 발산 | 발산 | 발산 | 73.0 (10/10 폭주) |
-| cubic+ (b>0) | 안정·강성 | 발산 | 96.9 | 97.3 | 69.9 (59.4) |
+| MLP | stable | 97.6 | — | — | 97.0 (72.1) |
+| cubic | unstable | div. | div. | div. | 73.0 (blow-up 10/10) |
+| cubic+ (b>0) | stable, stiff | div. | 96.9 | 97.3 | 69.9 (59.4) |
 
-GNN이 아닌 일반 Neural ODE에서도 같은 세 현상이 나타났다. cubic은 거짓 안정, cubic+는 수치적 불안정성이다. MLP는 발산은 없지만 Euler h=1로 학습한 모델이 기준해에서 97.0 → 72.1로 떨어져, 이산화 의존이 남는다.
+The same three phenomena appear in a plain Neural ODE: cubic shows false stability, cubic+ shows numerical instability. The MLP never diverges, but the Euler h=1 model drops from 97.0 to 72.1 under the reference solver; this is solver dependence [5], not blow-up.
 
-### 5.5 안정한 동역학은 적분기에 둔감하다
+### 5.5 Stable dynamics are solver-insensitive
 
-- 동역학이 안정한 BS·확산은 13개 적분 설정 모두에서 발산이 없었고, 정확도 차이는 0.82%p 이하였다.
-- 가중치를 고정하고 추론 적분기만 바꾸면 표현 오차가 Euler에서 h에, RK4에서 약 h⁴에 비례했다.
-- Euler h=2(NFE 2)는 RK4 h=0.25(NFE 64)와 같은 정확도를 냈다. Euler h=2로 학습한 BS 모델을 기준해로 풀어도 87.59 → 87.65%로 같았다.
+- BS and diffusion did not diverge in any of the 13 solver settings; accuracy varied by at most 0.82 pp.
+- With frozen weights and only the inference solver changed, the representation error scales as h for Euler and roughly h⁴ for RK4.
+- Euler h=2 (NFE 2) matched RK4 h=0.25 (NFE 64). A BS model trained with Euler h=2 kept its accuracy under the reference solver (87.59 → 87.65%).
 
 <p align="center">
   <img src="results/figs/fig_conv_div.png" width="70%">
 </p>
 
-### 5.6 다른 데이터셋
+### 5.6 Other datasets
 
-- **Texas, Wisconsin, Film:** BS는 모든 적분 설정에서 정상 학습됐다.
-- **Film:** AC와 AC(b>0)는 정밀 적분기에서 발산했고, 한 번의 step으로 끝나는 Euler h ≥ 0.5에서만 학습됐다. 학습 모드 max|x₀|가 9.46에 이른다.
-- **원인 확인:** 같은 가중치에서 RK4 h = 0.05 기준해는 10/10 발산했지만 RK4 h = 0.002와 분할 h = 0.001 기준해는 유한하고 정확도가 일치했다. AC(b>0)가 dopri5까지 발산한 원인은 폭주가 아니라 **강성**이다.
+- **Texas, Wisconsin, Film:** BS trained normally with every solver.
+- **Film:** AC and AC(b>0) diverged with accurate solvers and trained only with single-step Euler h ≥ 0.5. Training-mode max|x₀| reaches 9.46.
+- **Cause identified:** on the same weights, the RK4 h=0.05 reference diverged 10/10, while RK4 h=0.002 and splitting h=0.001 references were finite and agreed in accuracy. AC(b>0) diverging even with dopri5 is caused by **stiffness**, not blow-up.
 
-### 5.7 같은 가중치에서 적분기만 바꾸기 (수치적 불안정성의 직접 검증)
+### 5.7 Same weights, different solvers (direct test of numerical instability)
 
-AC(b>0) 가중치를 고정하고 적분기만 바꿨다(3분할, 오차 = 기준해 RK4 h = 0.01 대비 상대오차).
+AC(b>0) weights were frozen and only the solver was changed (3 splits; error = relative error vs. RK4 h=0.01).
 
-| 적분기 | Cora 학습 모드 입력 | Pubmed 학습 모드 입력 | Pubmed 추론 입력 |
+| Solver | Cora, training-mode input | Pubmed, training-mode input | Pubmed, inference input |
 |---|---|---|---|
-| RK4 h=1 | 비유한 3/3 | 비유한 3/3 | 비유한 3/3 |
-| RK4 h=0.5 | 유한, 2.0×10⁻⁴ | 비유한 3/3 | 비유한 3/3 |
-| RK4 h=0.25 | 유한, 9.5×10⁻⁶ | 비유한 3/3 | 유한 1/3 |
-| RK4 h=0.05 | 유한, 2.0×10⁻⁷ | 유한 2/3 | 유한 3/3 |
-| dopri5 | 유한, 6.8×10⁻⁷ | 유한 3/3 | 유한 3/3 |
-| 제안법 h=1 | 유한 3/3 | 유한 3/3 | 유한 3/3 |
+| RK4 h=1 | non-finite 3/3 | non-finite 3/3 | non-finite 3/3 |
+| RK4 h=0.5 | finite, 2.0×10⁻⁴ | non-finite 3/3 | non-finite 3/3 |
+| RK4 h=0.25 | finite, 9.5×10⁻⁶ | non-finite 3/3 | finite 1/3 |
+| RK4 h=0.05 | finite, 2.0×10⁻⁷ | finite 2/3 | finite 3/3 |
+| dopri5 | finite, 6.8×10⁻⁷ | finite 3/3 | finite 3/3 |
+| Proposed h=1 | finite 3/3 | finite 3/3 | finite 3/3 |
 
-연속 해는 유한하고 step만 안정 영역을 벗어난다. 상태 크기가 큰 입력일수록(|λ| ≈ b(3x² − 1)) 더 작은 step이 필요했다. Cora는 RK4 h = 0.25, Pubmed는 제안법으로 학습한 가중치다.
+The continuous solution is finite; only the step leaves the stability region. Inputs with larger states (|λ| ≈ b(3x² − 1)) needed smaller steps. Cora weights were trained with RK4 h=0.25, Pubmed weights with the proposed method.
 
-### 5.8 제안법
+### 5.8 Proposed method
 
-부호 제약 AC(b>0), 정확도(%, 10분할 평균±표준편차). 괄호는 같은 가중치의 기준해(RK4 미세 step) 정확도.
+Sign-constrained AC(b>0), accuracy (%, mean ± std over 10 splits). In parentheses: the same weights under the reference solver (fine-step RK4).
 
-| 데이터 | RK4 h=1 | RK4 h=0.25 | Euler h=1 | 제안법 h=1 | 분할별 차이 (제안법 − Euler) |
+| Dataset | RK4 h=1 | RK4 h=0.25 | Euler h=1 | Proposed h=1 | Paired difference (proposed − Euler) |
 |---|---|---:|---:|---:|---:|
-| Cora | 발산 | 87.89±1.17 | 88.03±1.01 (87.93) | 87.42±1.38 (87.40) | −0.60±1.36 (제안법 우위 3/10) |
-| Pubmed | 발산 | 발산 | 89.97±0.37 (89.82) | 89.65±0.44 (89.88) | −0.32±0.44 (2/10) |
-| Film | 발산 | 발산 | 31.62±2.73 (31.51) | 37.10±0.95 (37.22) | **+5.47±2.66 (10/10)** |
+| Cora | div. | 87.89±1.17 | 88.03±1.01 (87.93) | 87.42±1.38 (87.40) | −0.60±1.36 (proposed wins 3/10) |
+| Pubmed | div. | div. | 89.97±0.37 (89.82) | 89.65±0.44 (89.88) | −0.32±0.44 (2/10) |
+| Film | div. | div. | 31.62±2.73 (31.51) | 37.10±0.95 (37.22) | **+5.47±2.66 (10/10)** |
 
-- 순전파 1회당 NFE는 제안법·Euler h=1이 Cora 4, Pubmed 2, Film 1이다. RK4 h=0.25는 Cora 64, Pubmed 28. 표의 h = 1 실험은 모두 dt ≤ 1(정리 2의 조건)을 만족한다.
-- 같은 AC(b>0) 모델의 Pubmed epoch당 학습 시간(GPU 동기화, epoch 평균): 제안법 0.008초, Euler h = 1 0.008초, RK4 h = 0.25 0.050초(발산 전까지). 참고로 BS-RK4 h = 0.25는 0.076초.
-- Cora h = 2(NFE 2)도 87.53%로 학습됐지만, dt ≈ 1.9라 정리 2의 보장 범위를 벗어날 수 있다.
-- 부호 제약이 없는 AC에서는 제안 적분기도 Cora·Film 10/10 발산했다(반응 부분문제의 폭주를 유한값으로 통과하지 않음).
-- Cora·Pubmed에서는 Euler가 평균 0.3–0.6%p 높았지만 차이는 분할 간 편차 수준이다. 제안법의 이점은 정확도가 아니라 RK4가 실패하는 설정의 학습, 정리 2의 보장, 강성이 큰 Film에서의 성능(+5.5%p)이다.
+- NFE per forward pass for the proposed method and Euler h=1: Cora 4, Pubmed 2, Film 1. RK4 h=0.25: Cora 64, Pubmed 28. All h = 1 runs satisfy dt ≤ 1 (the condition of Theorem 2).
+- Training time per epoch on Pubmed for the same AC(b>0) model (GPU-synchronized, averaged over epochs): proposed 0.008 s, Euler h=1 0.008 s, RK4 h=0.25 0.050 s (until divergence). For reference, BS with RK4 h=0.25 takes 0.076 s.
+- Cora h=2 (NFE 2) also trained (87.53%), but with dt ≈ 1.9 it may fall outside the guarantee of Theorem 2.
+- Without the sign constraint, the proposed integrator also diverged 10/10 on Cora and Film: it does not pass through the reaction subproblem's blow-up with finite values.
+- On Cora and Pubmed Euler is 0.3–0.6 pp higher on average, within split-to-split variation. The benefit of the method is not accuracy but training where RK4 fails, the guarantee of Theorem 2, and the gain on stiff Film (+5.5 pp).
 
-## 6. 저장소 구조
+## 6. Repository layout
 
 ```text
 .
-├── rd_sweep.py        # 메인 러너: 반응항 × 적분 설정 × 분할, 발산·NFE·시간·Dirichlet energy 기록
-├── run_sweep.sh       # 1차 스윕(Cora, BS/AC/확산 × 13개 적분 설정 × 10분할), 끊겨도 이어서 실행
-├── run_sweep2.sh      # 2차 스윕(Fisher/Zeldovich/부호 제약, 다른 데이터셋)
-├── analyze.py         # sweep.jsonl → 표(CSV/Markdown) + 그림
-├── cross_eval.py      # 가중치 고정, 추론 적분기만 교체: 정확도·예측 변경률·표현 오차
-├── cross_summary.py   # cross_eval 결과 요약 표
-├── diag_ac.py         # AC 발산 진단: 스윕 요약 + 초기화 직후 궤적
-├── diag_train.py      # 학습 중 epoch별 max|x₀|, 반응 계수, 기준해 폭주 추적
-├── train_switch.py    # Euler → RK4 전환 학습
-├── diag_channel.py    # (노드, 채널) 원소 단위 폭주 검증, 해석해 t*와 비교
-├── step_refine.py     # 같은 체크포인트에서 step을 줄이며 폭주 관측 변화 확인
-├── toy_node.py        # 그래프 없는 Neural ODE(two-moons) 일반화 실험
-├── make_figs.py       # 논문 그림(fig_conv_div, fig_mechanism) 생성
-├── split_run.py       # 제안법(부호 제약 + 정확해 분할 적분) 학습·기준해 검증, --plain euler 로 대조군
-├── run_split.sh       # 제안법 본 실험(Cora/Film/Pubmed + 기존 적분기 대조군)
-├── run_split2.sh      # 제안법 vs Euler, 두 가지 기준해(RK4 미세 step, 분할 미세 step)
-├── fixed_ckpt.py      # 같은 가중치에서 적분기만 바꿔 수치적 불안정성 직접 확인
-├── figs/              # README 구상도(overview.png, architecture.png)와 Graphviz 원본(.dot)
-└── results/           # 실험 결과 jsonl, 표, 그림
+├── rd_sweep.py        # main runner: reaction × solver × split; logs divergence, NFE, time, Dirichlet energy
+├── run_sweep.sh       # sweep 1 (Cora, BS/AC/diffusion × 13 solver settings × 10 splits), resumable
+├── run_sweep2.sh      # sweep 2 (Fisher/Zeldovich, sign constraints, other datasets)
+├── analyze.py         # sweep.jsonl → tables (CSV/Markdown) + figures
+├── cross_eval.py      # frozen weights, swap the inference solver: accuracy, prediction flips, representation error
+├── cross_summary.py   # summary table for cross_eval
+├── diag_ac.py         # AC divergence diagnosis: sweep summary + trajectories at initialization
+├── diag_train.py      # per-epoch tracking of max|x₀|, reaction coefficients, reference blow-up
+├── train_switch.py    # Euler → RK4 switching during training
+├── diag_channel.py    # element-level (node, channel) blow-up check vs. closed-form t*
+├── step_refine.py     # same checkpoint, shrinking step sizes
+├── toy_node.py        # graph-free Neural ODE (two-moons)
+├── make_figs.py       # paper figures (fig_conv_div, fig_mechanism)
+├── split_run.py       # proposed method (sign constraint + exact-flow splitting) with reference checks; --plain euler for the control
+├── run_split.sh       # main runs of the proposed method (Cora/Film/Pubmed + baseline solvers)
+├── run_split2.sh      # proposed vs. Euler with two references (fine RK4, fine splitting)
+├── fixed_ckpt.py      # same weights, swap only the solver: direct test of numerical instability
+├── figs/              # README diagrams (overview.png, architecture.png) and Graphviz sources (.dot)
+└── results/           # result jsonl files, tables, figures
 ```
 
-| 결과 파일 | 만드는 스크립트 |
+| Result file | Produced by |
 |---|---|
 | `results/sweep.jsonl` | `run_sweep.sh` |
 | `results/sweep2.jsonl` | `run_sweep2.sh` |
@@ -281,11 +281,11 @@ AC(b>0) 가중치를 고정하고 적분기만 바꿨다(3분할, 오차 = 기�
 | `results/split2.jsonl` | `run_split2.sh` |
 | `results/fixed_ckpt.jsonl` | `fixed_ckpt.py` |
 
-## 7. 재현 방법
+## 7. Reproduction
 
-### 7.1 환경
+### 7.1 Environment
 
-Python 3.9, CUDA 12.8(RTX 50 시리즈의 sm_120 지원 때문에 cu128 사용)에서 실행했다.
+Tested with Python 3.9 and CUDA 12.8 (cu128 is needed for sm_120 on RTX 50-series GPUs).
 
 ```bash
 conda create -n gread python=3.9 -y
@@ -296,12 +296,12 @@ pip install torch-geometric==2.3.1 "numpy<2" scikit-learn==1.2.2 torchdiffeq==0.
             pykeops numba pandas matplotlib tabulate
 ```
 
-- `scikit-learn`은 1.2.2로 고정해야 GREAD 코드의 `DistanceMetric` import가 동작한다.
-- 최근 PyTorch의 `torch.load(weights_only=True)` 기본값 문제는 `rd_sweep.py`가 내부에서 처리한다.
+- `scikit-learn` must be pinned to 1.2.2 for the `DistanceMetric` import in the GREAD code.
+- `rd_sweep.py` handles the `torch.load(weights_only=True)` default of recent PyTorch.
 
-### 7.2 GREAD 코드 연결
+### 7.2 Linking with GREAD
 
-모든 스크립트는 GREAD의 `src/` 안에서 실행되도록 작성했다. 원본 코드는 수정하지 않고 심볼릭 링크로 연결한다.
+All scripts run from GREAD's `src/` directory. The original code is not modified; scripts are linked in.
 
 ```bash
 git clone https://github.com/jeongwhanchoi/GREAD.git
@@ -311,79 +311,79 @@ ln -sfn "$(realpath repo/results)" GREAD/results
 cd GREAD/src
 ```
 
-Geom-GCN 분할 파일(`*_split_0.6_0.2_{0..9}.npz`)은 `GREAD/src/splits/`에 둔다.
+Place the Geom-GCN split files (`*_split_0.6_0.2_{0..9}.npz`) in `GREAD/src/splits/`.
 
-### 7.3 실험 실행 (GREAD/src 에서)
+### 7.3 Running the experiments (from GREAD/src)
 
 ```bash
-# 1차 스윕 (Cora). 끊겨도 다시 실행하면 끝난 설정은 건너뜀
+# Sweep 1 (Cora). Resumable: finished settings are skipped
 setsid nohup bash run_sweep.sh > ../results/sweep.log 2>&1 &
 
-# 2차 스윕 (반응항 차수·부호 제약, 다른 데이터셋)
+# Sweep 2 (reaction degree, sign constraints, other datasets)
 setsid nohup bash run_sweep2.sh > ../results/sweep2.log 2>&1 &
 
-# 단일 실행 예시
+# Single run
 python rd_sweep.py --reaction allen-cahn --beta_pos --method rk4 --step_size 0.25 --splits 0 1 2
 ```
 
-`rd_sweep.py` 주요 인자:
+Main arguments of `rd_sweep.py`:
 
-| 인자 | 설명 |
+| Argument | Description |
 |---|---|
-| `--dataset` | Cora, film, texas, wisconsin 등 |
+| `--dataset` | Cora, film, texas, wisconsin, ... |
 | `--reaction` | `bspm`, `allen-cahn`, `fisher`, `zeldovich`, `diffusion` |
-| `--beta_pos` | 반응 계수를 b = softplus(w) > 0 으로 제약 |
+| `--beta_pos` | constrain reaction coefficients to b = softplus(w) > 0 |
 | `--method` | `euler`, `rk4`, `midpoint`, `dopri5` |
-| `--step_size` / `--tol_scale` | 고정 step / dopri5 허용오차 배율 |
-| `--time` | 적분 종료 시간 T (기본: best params) |
-| `--max_nfe` | 이 값을 넘으면 발산으로 기록 (기본 5000) |
-| `--splits` | 사용할 분할 번호 |
+| `--step_size` / `--tol_scale` | fixed step / dopri5 tolerance multiplier |
+| `--time` | integration time T (default: best params) |
+| `--max_nfe` | runs exceeding this NFE are recorded as diverged (default 5000) |
+| `--splits` | split indices to run |
 
 ```bash
-# 가중치 고정 후 추론 적분기 교체
+# Frozen weights, swap the inference solver
 python cross_eval.py --reaction bspm --method rk4 --step_size 0.5
 python cross_eval.py --reaction allen-cahn --method euler --step_size 1.0
 python cross_summary.py ../results/crosseval.jsonl
 
-# 폭주 메커니즘
+# Blow-up mechanism
 python diag_train.py --method rk4 --step_size 0.5 --epochs 15
 python diag_train.py --method euler --step_size 1.0 --epochs 60
 python train_switch.py --reaction allen-cahn --switch 0 5 20 50
 python diag_channel.py --epochs 8
 python step_refine.py
 
-# 그래프 없는 Neural ODE
+# Graph-free Neural ODE
 python toy_node.py --out ../results/toy_node.jsonl \
   --solvers euler:1.0,rk4:0.25,rk4:0.1,dopri5:0 --kinds mlp,cubic,cubic+
 
-# 제안법
+# Proposed method
 bash run_split.sh > ../results/split.log 2>&1
 bash run_split2.sh > ../results/split2.log 2>&1
-python split_run.py --dataset Cora --beta_pos --step_size 1.0            # 단일 실행
+python split_run.py --dataset Cora --beta_pos --step_size 1.0            # single run
 python fixed_ckpt.py --dataset Cora --train rk4 --train_h 0.25 --splits 0 1 2
 python fixed_ckpt.py --dataset Pubmed --train split --train_h 1.0 --splits 0 1 2
 
-# 표와 그림
+# Tables and figures
 python analyze.py ../results/sweep.jsonl ../results/report
 python make_figs.py ../results ../results/figs
 ```
 
-## 8. 한계와 후속 연구
+## 8. Limitations and future work
 
-**한계**
+**Limitations**
 
-- 정리 1은 폭주 시각의 하한만 준다. 폭주가 실제로 일어나는지는 스칼라 조건으로 예측하며, 그래프 전체에 대한 폭주 발생 조건(상한)은 아직 없다.
-- 정리 2의 보장은 순전파 상태의 유계성에 국한된다. 역전파·최적화 안정성 분석은 후속 과제다.
-- 제안 적분기는 닫힌 해가 있는 AC 반응항에 한정되고, 1차 정확도이며, dt·α ≤ 1에서만 보장된다. 부호 제약의 표현력 손실은 작았지만(RK4 h=0.25에서 BS와 0.22%p 차이), 동질 그래프에서는 Euler보다 정확도가 약간 낮았다.
-- GREAD 실험은 데이터셋별 BS 최적값을 공통으로 썼다. 원 논문의 AC 전용 설정과 직접 비교되지 않는다. 따라서 결과의 뜻은 "AC는 정밀 적분으로 학습되지 않는다"가 아니라 "같은 설정에서 반응항과 적분기 조합에 따라 안정성이 달라지며, 그 원인을 예측할 수 있다"이다.
-- Neural ODE 실험은 소규모다(시드 10개).
+- Theorem 1 only gives a lower bound on the blow-up time. Whether blow-up actually occurs is predicted by the scalar condition; a graph-level condition for blow-up (an upper bound) is still missing.
+- Theorem 2 guarantees boundedness of the forward state only. Stability of backpropagation and optimization is left for future work.
+- The proposed integrator is limited to the AC reaction, which has a closed-form flow; it is first-order and its guarantee requires dt·α ≤ 1. The sign constraint costs little expressiveness (0.22 pp below BS at RK4 h=0.25), but on homophilous graphs accuracy is slightly below Euler.
+- All GREAD experiments share the per-dataset BS optimum so that only the reaction and solver change, so they are not directly comparable with the AC-specific settings of the original paper. The claim is therefore not "AC cannot be trained with accurate solvers" but "under identical settings, stability depends on the reaction–solver combination, and the cause can be predicted".
+- The Neural ODE experiments are small (10 seeds).
 
-**후속 연구**
+**Future work**
 
-1. **폭주 발생 조건(상한).** Kaplan 고유벡터 방법으로 그래프 전체 계의 폭주 시간 상한을 유도해 정리 1의 하한과 짝을 맞춘다.
-2. **제안법 확장.** Fisher·Zeldovich 반응항의 정확해 분할, 2차 정확도 확산 단계, 대규모 그래프, ACMP·IMEX 적분기와의 비교.
+1. **A condition for blow-up (upper bound).** Derive an upper bound on the graph-level blow-up time with Kaplan's eigenvector method, to pair with the lower bound of Theorem 1.
+2. **Extending the method.** Exact-flow splitting for Fisher and Zeldovich, a second-order diffusion step, larger graphs, and comparison with ACMP and IMEX solvers.
 
-## 9. 참고문헌
+## 9. References
 
 1. R. T. Q. Chen, Y. Rubanova, J. Bettencourt, D. Duvenaud. Neural Ordinary Differential Equations. NeurIPS, 2018.
 2. E. Haber, L. Ruthotto. Stable Architectures for Deep Neural Networks. Inverse Problems, 34(1), 2017.
