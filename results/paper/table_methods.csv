@@ -1,0 +1,25 @@
+dataset,method,n,train_acc,ref_acc,ref_acc_sd,gap,gap_sd,sec_per_epoch,ref_converged_diff_max
+cornell,Euler,10,61.4,18.6,25.6,42.7,29.8,0.0038,0.0000
+cornell,Euler + consistency (λ=0.1),10,62.2,24.3,27.2,37.8,33.0,0.0067,0.0000
+cornell,Euler + consistency (λ=1),10,63.2,31.1,33.2,32.2,34.0,0.0068,0.0000
+cornell,Strang (ours),10,72.7,72.7,6.8,-0.0,0.0,0.0067,0.0000
+wisconsin,Euler,10,76.9,52.5,20.5,24.3,20.3,0.0040,0.0000
+wisconsin,Euler + consistency (λ=0.1),10,43.9,48.0,7.0,-4.1,3.3,0.0279,0.0000
+wisconsin,Euler + consistency (λ=1),10,44.3,48.0,7.0,-3.7,3.6,0.0275,0.0000
+wisconsin,Strang (ours),10,79.6,79.4,4.2,0.2,0.6,0.0082,0.0000
+texas,Euler,10,75.4,56.2,7.1,19.2,10.3,0.0027,0.0000
+texas,Euler + consistency (λ=0.1),10,57.0,58.9,4.6,-1.9,3.1,0.0088,0.0000
+texas,Euler + consistency (λ=1),10,56.2,58.9,4.6,-2.7,4.0,0.0164,0.0000
+texas,Strang (ours),10,74.6,74.3,6.9,0.3,0.9,0.0060,0.0000
+chameleon,Euler,10,59.8,57.5,1.9,2.2,1.3,0.0097,0.0000
+chameleon,Euler + consistency (λ=0.1),10,52.8,52.9,2.6,-0.2,1.0,0.0245,0.0000
+chameleon,Euler + consistency (λ=1),10,53.8,53.2,2.5,0.7,0.6,0.0246,0.0000
+chameleon,Strang (ours),10,57.5,57.6,1.7,-0.1,0.6,0.0742,0.0000
+film,Euler,10,31.8,31.6,2.7,0.2,0.2,0.0045,0.0007
+film,Euler + consistency (λ=0.1),10,31.5,31.4,3.0,0.1,0.2,0.0083,0.0000
+film,Euler + consistency (λ=1),10,31.2,31.1,2.7,0.1,0.2,0.0082,0.0000
+film,Strang (ours),10,37.1,37.1,1.3,0.0,0.1,0.0067,0.0000
+Cora,Euler,10,87.7,87.9,1.0,-0.2,0.5,0.0055,0.0020
+Cora,Euler + consistency (λ=0.1),10,87.7,87.8,0.6,-0.1,0.6,0.0124,0.0000
+Cora,Euler + consistency (λ=1),10,86.5,86.9,1.3,-0.5,0.4,0.0122,0.0000
+Cora,Strang (ours),10,87.8,87.8,0.9,0.0,0.1,0.0224,0.0000

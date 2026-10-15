@@ -1,0 +1,327 @@
+nohup: ignoring input
+Processing...
+Done!
+/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch_geometric/data/in_memory_dataset.py:157: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch/cuda/__init__.py:789: UserWarning: Can't initialize NVML
+  warnings.warn("Can't initialize NVML")
+/home/hong_jy_sc/ksc-gread/GREAD/src/function_gread.py:34: FutureWarning: `nn.init.uniform` is now deprecated in favor of `nn.init.uniform_`.
+  uniform(self.b_W, a=-1, b=1)
+[KeOps] Warning : CUDA libraries not found or could not be loaded; Switching to CPU only.
+torch.Size([2277])
+tensor(1092)
+torch.Size([2277])
+tensor(729)
+torch.Size([2277])
+tensor(456)
+torch.Size([2277, 2325])
+[split] chameleon bpos=True h=1.0 split=0 status=ok test=61.40 ref=59.43 ref2=0.5942982456140351 fNFE/ep=2.0 s/ep=0.010994558957353908
+torch.Size([2277])
+tensor(1092)
+torch.Size([2277])
+tensor(729)
+torch.Size([2277])
+tensor(456)
+torch.Size([2277, 2325])
+[split] chameleon bpos=True h=1.0 split=1 status=ok test=61.18 ref=57.02 ref2=0.5701754385964912 fNFE/ep=2.0 s/ep=0.009244534238499014
+torch.Size([2277])
+tensor(1092)
+torch.Size([2277])
+tensor(729)
+torch.Size([2277])
+tensor(456)
+torch.Size([2277, 2325])
+[split] chameleon bpos=True h=1.0 split=2 status=ok test=59.87 ref=57.46 ref2=0.5745614035087719 fNFE/ep=2.0 s/ep=0.009280401258612398
+torch.Size([2277])
+tensor(1092)
+torch.Size([2277])
+tensor(729)
+torch.Size([2277])
+tensor(456)
+torch.Size([2277, 2325])
+[split] chameleon bpos=True h=1.0 split=3 status=ok test=60.75 ref=59.21 ref2=0.5921052631578947 fNFE/ep=2.0 s/ep=0.009256088553960599
+torch.Size([2277])
+tensor(1092)
+torch.Size([2277])
+tensor(729)
+torch.Size([2277])
+tensor(456)
+torch.Size([2277, 2325])
+[split] chameleon bpos=True h=1.0 split=4 status=ok test=59.65 ref=57.46 ref2=0.5745614035087719 fNFE/ep=2.0 s/ep=0.009252184000446568
+torch.Size([2277])
+tensor(1092)
+torch.Size([2277])
+tensor(729)
+torch.Size([2277])
+tensor(456)
+torch.Size([2277, 2325])
+[split] chameleon bpos=True h=1.0 split=5 status=ok test=60.53 ref=59.21 ref2=0.5921052631578947 fNFE/ep=2.0 s/ep=0.009269428013557166
+torch.Size([2277])
+tensor(1092)
+torch.Size([2277])
+tensor(729)
+torch.Size([2277])
+tensor(456)
+torch.Size([2277, 2325])
+[split] chameleon bpos=True h=1.0 split=6 status=ok test=56.14 ref=53.95 ref2=0.5394736842105263 fNFE/ep=2.0 s/ep=0.009329096156748096
+torch.Size([2277])
+tensor(1092)
+torch.Size([2277])
+tensor(729)
+torch.Size([2277])
+tensor(456)
+torch.Size([2277, 2325])
+[split] chameleon bpos=True h=1.0 split=7 status=ok test=57.68 ref=56.36 ref2=0.5635964912280702 fNFE/ep=2.0 s/ep=0.009179878474479944
+torch.Size([2277])
+tensor(1092)
+torch.Size([2277])
+tensor(729)
+torch.Size([2277])
+tensor(456)
+torch.Size([2277, 2325])
+[split] chameleon bpos=True h=1.0 split=8 status=ok test=59.21 ref=57.89 ref2=0.5789473684210527 fNFE/ep=2.0 s/ep=0.009270939994696996
+torch.Size([2277])
+tensor(1092)
+torch.Size([2277])
+tensor(729)
+torch.Size([2277])
+tensor(456)
+torch.Size([2277, 2325])
+[split] chameleon bpos=True h=1.0 split=9 status=ok test=57.89 ref=54.39 ref2=0.543859649122807 fNFE/ep=2.0 s/ep=0.009266129690199042
+/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch_geometric/data/in_memory_dataset.py:157: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch/cuda/__init__.py:789: UserWarning: Can't initialize NVML
+  warnings.warn("Can't initialize NVML")
+/home/hong_jy_sc/ksc-gread/GREAD/src/function_gread.py:34: FutureWarning: `nn.init.uniform` is now deprecated in favor of `nn.init.uniform_`.
+  uniform(self.b_W, a=-1, b=1)
+[KeOps] Warning : CUDA libraries not found or could not be loaded; Switching to CPU only.
+torch.Size([2277])
+tensor(1092)
+torch.Size([2277])
+tensor(729)
+torch.Size([2277])
+tensor(456)
+torch.Size([2277, 2325])
+[euler] chameleon bpos=True h=1.0 split=0 status=ok test=61.18 ref=59.21 ref2=0.5921052631578947 fNFE/ep=2.0 s/ep=0.011314092569015733
+torch.Size([2277])
+tensor(1092)
+torch.Size([2277])
+tensor(729)
+torch.Size([2277])
+tensor(456)
+torch.Size([2277, 2325])
+[euler] chameleon bpos=True h=1.0 split=1 status=ok test=58.77 ref=56.58 ref2=0.5657894736842105 fNFE/ep=2.0 s/ep=0.009569692851310999
+torch.Size([2277])
+tensor(1092)
+torch.Size([2277])
+tensor(729)
+torch.Size([2277])
+tensor(456)
+torch.Size([2277, 2325])
+[euler] chameleon bpos=True h=1.0 split=2 status=ok test=57.02 ref=56.36 ref2=0.5635964912280702 fNFE/ep=2.0 s/ep=0.009557260340781666
+torch.Size([2277])
+tensor(1092)
+torch.Size([2277])
+tensor(729)
+torch.Size([2277])
+tensor(456)
+torch.Size([2277, 2325])
+[euler] chameleon bpos=True h=1.0 split=3 status=ok test=57.24 ref=57.24 ref2=0.5723684210526315 fNFE/ep=2.0 s/ep=0.00948922358565594
+torch.Size([2277])
+tensor(1092)
+torch.Size([2277])
+tensor(729)
+torch.Size([2277])
+tensor(456)
+torch.Size([2277, 2325])
+[euler] chameleon bpos=True h=1.0 split=4 status=ok test=59.21 ref=57.46 ref2=0.5745614035087719 fNFE/ep=2.0 s/ep=0.009560983983715575
+torch.Size([2277])
+tensor(1092)
+torch.Size([2277])
+tensor(729)
+torch.Size([2277])
+tensor(456)
+torch.Size([2277, 2325])
+[euler] chameleon bpos=True h=1.0 split=5 status=ok test=60.53 ref=59.21 ref2=0.5921052631578947 fNFE/ep=2.0 s/ep=0.009547664891535313
+torch.Size([2277])
+tensor(1092)
+torch.Size([2277])
+tensor(729)
+torch.Size([2277])
+tensor(456)
+torch.Size([2277, 2325])
+[euler] chameleon bpos=True h=1.0 split=6 status=ok test=55.04 ref=55.48 ref2=0.5548245614035088 fNFE/ep=2.0 s/ep=0.009545685657903777
+torch.Size([2277])
+tensor(1092)
+torch.Size([2277])
+tensor(729)
+torch.Size([2277])
+tensor(456)
+torch.Size([2277, 2325])
+[euler] chameleon bpos=True h=1.0 split=7 status=ok test=54.39 ref=51.75 ref2=0.5175438596491229 fNFE/ep=2.0 s/ep=0.009456797460814816
+torch.Size([2277])
+tensor(1092)
+torch.Size([2277])
+tensor(729)
+torch.Size([2277])
+tensor(456)
+torch.Size([2277, 2325])
+[euler] chameleon bpos=True h=1.0 split=8 status=ok test=59.87 ref=58.55 ref2=0.5855263157894737 fNFE/ep=2.0 s/ep=0.00955292327919198
+torch.Size([2277])
+tensor(1092)
+torch.Size([2277])
+tensor(729)
+torch.Size([2277])
+tensor(456)
+torch.Size([2277, 2325])
+[euler] chameleon bpos=True h=1.0 split=9 status=ok test=59.87 ref=57.89 ref2=0.5789473684210527 fNFE/ep=2.0 s/ep=0.009502432454171492
+Processing...
+Done!
+/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch_geometric/data/in_memory_dataset.py:157: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch/cuda/__init__.py:789: UserWarning: Can't initialize NVML
+  warnings.warn("Can't initialize NVML")
+/home/hong_jy_sc/ksc-gread/GREAD/src/function_gread.py:34: FutureWarning: `nn.init.uniform` is now deprecated in favor of `nn.init.uniform_`.
+  uniform(self.b_W, a=-1, b=1)
+/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torchdiffeq/_impl/misc.py:11: UserWarning: RK4: Unexpected arguments {'max_iters': 100}
+  warnings.warn('{}: Unexpected arguments {}'.format(solver.__class__.__name__, unused_kwargs))
+[KeOps] Warning : CUDA libraries not found or could not be loaded; Switching to CPU only.
+torch.Size([5201])
+tensor(2496)
+torch.Size([5201])
+tensor(1664)
+torch.Size([5201])
+tensor(1041)
+torch.Size([5201, 2089])
+Traceback (most recent call last):
+  File "/home/hong_jy_sc/ksc-gread/GREAD/src/split_run.py", line 94, in <module>
+    (_, _, te), _, finite = R.evaluate(m, ds.data.to(dev))
+  File "/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/hong_jy_sc/ksc-gread/GREAD/src/rd_sweep.py", line 135, in evaluate
+    logits = model(data.x)
+  File "/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/hong_jy_sc/ksc-gread/GREAD/src/GNN.py", line 96, in forward
+    z = self.forward_XN(x,pos_encoding)
+  File "/home/hong_jy_sc/ksc-gread/GREAD/src/GNN.py", line 78, in forward_XN
+    z = self.odeblock(x)
+  File "/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/hong_jy_sc/ksc-gread/GREAD/src/block_constant.py", line 59, in forward
+    state_dt = integrator(
+  File "/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torchdiffeq/_impl/odeint.py", line 77, in odeint
+    solution = solver.integrate(t)
+  File "/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torchdiffeq/_impl/solvers.py", line 105, in integrate
+    dy, f0 = self._step_func(self.func, t0, dt, t1, y0)
+  File "/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torchdiffeq/_impl/fixed_grid.py", line 29, in _step_func
+    return rk4_alt_step_func(func, t0, dt, t1, y0, f0=f0, perturb=self.perturb), f0
+  File "/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torchdiffeq/_impl/rk_common.py", line 111, in rk4_alt_step_func
+    k2 = func(t0 + dt * _one_third, y0 + dt * k1 * _one_third)
+  File "/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torchdiffeq/_impl/misc.py", line 189, in forward
+    return self.base_func(t, y)
+  File "/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/hong_jy_sc/ksc-gread/GREAD/src/function_gread.py", line 54, in forward
+    raise MaxNFEException
+utils.MaxNFEException
+/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch_geometric/data/in_memory_dataset.py:157: UserWarning: It is not recommended to directly access the internal storage format `data` of an 'InMemoryDataset'. If you are absolutely certain what you are doing, access the internal storage via `InMemoryDataset._data` instead to suppress this warning. Alternatively, you can access stacked individual attributes of every graph via `dataset.{attr_name}`.
+  warnings.warn(msg)
+/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torch/cuda/__init__.py:789: UserWarning: Can't initialize NVML
+  warnings.warn("Can't initialize NVML")
+/home/hong_jy_sc/ksc-gread/GREAD/src/function_gread.py:34: FutureWarning: `nn.init.uniform` is now deprecated in favor of `nn.init.uniform_`.
+  uniform(self.b_W, a=-1, b=1)
+/home/hong_jy_sc/miniforge3/envs/gread/lib/python3.9/site-packages/torchdiffeq/_impl/misc.py:11: UserWarning: Euler: Unexpected arguments {'max_iters': 100}
+  warnings.warn('{}: Unexpected arguments {}'.format(solver.__class__.__name__, unused_kwargs))
+[KeOps] Warning : CUDA libraries not found or could not be loaded; Switching to CPU only.
+torch.Size([5201])
+tensor(2496)
+torch.Size([5201])
+tensor(1664)
+torch.Size([5201])
+tensor(1041)
+torch.Size([5201, 2089])
+[euler] squirrel bpos=True h=1.0 split=0 status=nan test=- ref=- ref2=None fNFE/ep=None s/ep=0.41446590423583984
+torch.Size([5201])
+tensor(2496)
+torch.Size([5201])
+tensor(1664)
+torch.Size([5201])
+tensor(1041)
+torch.Size([5201, 2089])
+[euler] squirrel bpos=True h=1.0 split=1 status=nan test=- ref=- ref2=None fNFE/ep=None s/ep=0.07349324226379395
+torch.Size([5201])
+tensor(2496)
+torch.Size([5201])
+tensor(1664)
+torch.Size([5201])
+tensor(1041)
+torch.Size([5201, 2089])
+[euler] squirrel bpos=True h=1.0 split=2 status=nan test=- ref=- ref2=None fNFE/ep=None s/ep=0.07256937026977539
+torch.Size([5201])
+tensor(2496)
+torch.Size([5201])
+tensor(1664)
+torch.Size([5201])
+tensor(1041)
+torch.Size([5201, 2089])
+[euler] squirrel bpos=True h=1.0 split=3 status=nan test=- ref=- ref2=None fNFE/ep=None s/ep=0.07167863845825195
+torch.Size([5201])
+tensor(2496)
+torch.Size([5201])
+tensor(1664)
+torch.Size([5201])
+tensor(1041)
+torch.Size([5201, 2089])
+[euler] squirrel bpos=True h=1.0 split=4 status=nan test=- ref=- ref2=None fNFE/ep=None s/ep=0.07306480407714844
+torch.Size([5201])
+tensor(2496)
+torch.Size([5201])
+tensor(1664)
+torch.Size([5201])
+tensor(1041)
+torch.Size([5201, 2089])
+[euler] squirrel bpos=True h=1.0 split=5 status=nan test=- ref=- ref2=None fNFE/ep=None s/ep=0.07209038734436035
+torch.Size([5201])
+tensor(2496)
+torch.Size([5201])
+tensor(1664)
+torch.Size([5201])
+tensor(1041)
+torch.Size([5201, 2089])
+[euler] squirrel bpos=True h=1.0 split=6 status=nan test=- ref=- ref2=None fNFE/ep=None s/ep=0.0713651180267334
+torch.Size([5201])
+tensor(2496)
+torch.Size([5201])
+tensor(1664)
+torch.Size([5201])
+tensor(1041)
+torch.Size([5201, 2089])
+[euler] squirrel bpos=True h=1.0 split=7 status=nan test=- ref=- ref2=None fNFE/ep=None s/ep=0.07204055786132812
+torch.Size([5201])
+tensor(2496)
+torch.Size([5201])
+tensor(1664)
+torch.Size([5201])
+tensor(1041)
+torch.Size([5201, 2089])
+[euler] squirrel bpos=True h=1.0 split=8 status=nan test=- ref=- ref2=None fNFE/ep=None s/ep=0.07267260551452637
+torch.Size([5201])
+tensor(2496)
+torch.Size([5201])
+tensor(1664)
+torch.Size([5201])
+tensor(1041)
+torch.Size([5201, 2089])
+[euler] squirrel bpos=True h=1.0 split=9 status=nan test=- ref=- ref2=None fNFE/ep=None s/ep=0.07212185859680176
+ALL DONE
