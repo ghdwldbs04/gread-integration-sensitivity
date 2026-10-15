@@ -1,0 +1,36 @@
+lines 240 from ['../results/bs_1015_1924.jsonl', '../results/rx_1015_1956.jsonl']
+
+reaction  dataset    train            ok/fail refNaN  acc(train) acc(ref)  gap  refconv  kappa_gen   q_h    acc(Euler1)
+bspm      cornell    euler 1 (eul)    10/0    0     75.1      75.1   -0.0    0.0       0.12  0.00744    75.1 (10/10 finite)
+bspm      cornell    rk4 0.2 (pub)    10/0    0     73.0      73.0   -0.0    0.0      0.132   0.0079    73.0 (10/10 finite)
+bspm      wisconsin  euler 1 (eul)    10/0    0     85.3      85.9   -0.6    0.0      0.939    0.245    85.3 (10/10 finite)
+bspm      wisconsin  rk4 0.25 (pub)   10/0    0     86.9      86.9   -0.0    0.0       0.22    0.018    86.1 (10/10 finite)
+bspm      texas      euler 1 (eul)    10/0    0     85.7      85.1    0.5    0.0      0.818    0.156    85.7 (10/10 finite)
+bspm      texas      euler 1 (pub)    10/0    0     85.7      85.1    0.5    0.0      0.818    0.156    85.7 (10/10 finite)
+bspm      chameleon  euler 1 (eul)    10/0    0     69.1      67.6    1.4    0.0       2.82    0.717    69.1 (10/10 finite)
+bspm      chameleon  euler 1.5 (pub)  10/0    0     70.2      68.0    2.2    0.0       4.69     1.59    69.4 (10/10 finite)
+bspm      film       euler 1 (eul)    10/0    0     36.9      36.8    0.1    0.0       0.51   0.0211    36.9 (10/10 finite)
+bspm      film       rk4 0.1 (pub)    10/0    0     37.1      37.1   -0.0    0.0      0.177  0.00273    37.1 (10/10 finite)
+bspm      Cora       euler 1 (eul)    10/0    0     87.6      87.7   -0.1    0.0       0.79     0.06    87.6 (10/10 finite)
+bspm      Cora       rk4 0.5 (pub)    10/0    0     87.8      87.8    0.0    0.0      0.412   0.0154    87.7 (10/10 finite)
+fisher    cornell    euler 1 (eul)    10/0    0     74.9      74.9   -0.0    0.0       0.46    0.022    74.9 (10/10 finite)
+fisher    wisconsin  euler 1 (eul)    10/0   10     80.6       -      -      nan       67.9 1.52e+03    80.6 (10/10 finite)
+fisher    texas      euler 1 (eul)    10/0   10     79.5       -      -      nan       68.7 1.24e+03    79.5 (10/10 finite)
+fisher    chameleon  euler 1 (eul)    10/0   10     64.8       -      -      nan       12.3     4.04    64.8 (10/10 finite)
+fisher    film       euler 1 (eul)    10/0    7     36.3      36.3    0.0    0.0       2.57   0.0637    36.3 (10/10 finite)
+fisher    Cora       euler 1 (eul)    10/0    6     87.6      88.2   -0.2    0.0      0.985   0.0514    87.6 (10/10 finite)
+zeldovich cornell    euler 1 (eul)    10/0   10     72.4       -      -      nan        335 4.71e+04    72.4 (10/10 finite)
+zeldovich wisconsin  euler 1 (eul)    10/0   10     78.2       -      -      nan   7.63e+04 3.52e+09    78.2 (10/10 finite)
+zeldovich texas      euler 1 (eul)    10/0   10     70.3       -      -      nan   6.78e+04  1.1e+09    70.3 (10/10 finite)
+zeldovich chameleon  euler 1 (eul)    10/0   10     61.6       -      -      nan        162     47.3    61.6 (10/10 finite)
+zeldovich film       euler 1 (eul)    10/0   10     36.6       -      -      nan       13.3    0.169    36.6 (10/10 finite)
+zeldovich Cora       euler 1 (eul)    10/0    2     87.4      87.5   -0.1    0.0       1.03   0.0645    87.4 (10/10 finite)
+
+== rank correlation over all trained models with a finite reference ==
+  all                            n=145 rho(kappa_gen,gap)=+0.354 rho(q_h,gap)=+0.323
+  euler-trained                  n=105 rho(kappa_gen,gap)=+0.434 rho(q_h,gap)=+0.405
+  nonlinear (fisher, zeldovich)  n= 25 rho(kappa_gen,gap)=+0.107 rho(q_h,gap)=-0.118
+  bspm                           n=120 rho(kappa_gen,gap)=+0.430 rho(q_h,gap)=+0.386
+
+== rule 'kappa_gen > 2' vs 'gap > 2 %p' (Euler-trained, finite reference) ==
+  kappa>2 & gap>2: 6   kappa>2 & gap<=2: 16   kappa<=2 & gap>2: 2   kappa<=2 & gap<=2: 81
