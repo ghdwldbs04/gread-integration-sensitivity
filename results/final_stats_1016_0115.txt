@@ -1,0 +1,92 @@
+== (1)+(2) kappa / q_h vs gap: pooled and WITHIN dataset ==
+
+  [Euler h=1] kappa_eff: pooled rho = +0.798 (n=60); mean within-dataset rho = +0.266, stratified permutation p = 0.0266; positive in 5/6 datasets
+     cornell    n=10 rho=+0.549   gap mean   42.2 sd  27.9 %p
+     wisconsin  n=10 rho=-0.103   gap mean   36.3 sd  21.1 %p
+     texas      n=10 rho=+0.600   gap mean   19.5 sd   9.8 %p
+     chameleon  n=10 rho=+0.139   gap mean    1.9 sd   1.4 %p
+     film       n=10 rho=+0.261   gap mean    0.0 sd   0.2 %p
+     Cora       n=10 rho=+0.152   gap mean   -0.1 sd   0.8 %p
+
+  [Euler h=1] q_eff: pooled rho = +0.805 (n=50); mean within-dataset rho = +0.299, stratified permutation p = 0.0211; positive in 4/5 datasets
+     cornell    n=10 rho=+0.549   gap mean   42.2 sd  27.9 %p
+     wisconsin  n=10 rho=-0.224   gap mean   36.3 sd  21.1 %p
+     chameleon  n=10 rho=+0.491   gap mean    1.9 sd   1.4 %p
+     film       n=10 rho=+0.297   gap mean    0.0 sd   0.2 %p
+     Cora       n=10 rho=+0.382   gap mean   -0.1 sd   0.8 %p
+  [Euler h=1] dataset-level rho(mean kappa_eff, mean gap) = +0.829 (n=6)
+
+  [Euler h=1 and 0.5] kappa_eff: pooled rho = +0.696 (n=110); mean within-dataset rho = +0.337, stratified permutation p = 0.0004; positive in 5/6 datasets
+     cornell    n=20 rho=+0.800   gap mean   32.4 sd  29.7 %p
+     wisconsin  n=10 rho=-0.103   gap mean   36.3 sd  21.1 %p
+     texas      n=20 rho=+0.445   gap mean   19.1 sd  16.3 %p
+     chameleon  n=20 rho=+0.570   gap mean    0.8 sd   1.5 %p
+     film       n=20 rho=+0.278   gap mean    0.0 sd   0.2 %p
+     Cora       n=20 rho=+0.032   gap mean   -0.1 sd   0.6 %p
+
+  [Euler h=1 and 0.5] q_eff: pooled rho = +0.630 (n=90); mean within-dataset rho = +0.286, stratified permutation p = 0.0065; positive in 3/5 datasets
+     cornell    n=20 rho=+0.794   gap mean   32.4 sd  29.7 %p
+     wisconsin  n=10 rho=-0.224   gap mean   36.3 sd  21.1 %p
+     chameleon  n=20 rho=+0.638   gap mean    0.8 sd   1.5 %p
+     film       n=20 rho=+0.232   gap mean    0.0 sd   0.2 %p
+     Cora       n=20 rho=-0.011   gap mean   -0.1 sd   0.6 %p
+  [Euler h=1 and 0.5] dataset-level rho(mean kappa_eff, mean gap) = +0.943 (n=6)
+
+  [split + Strang] kappa_eff: pooled rho = -0.149 (n=120); mean within-dataset rho = -0.018, stratified permutation p = 0.5750; positive in 3/6 datasets
+     cornell    n=20 rho=-0.107   gap mean   -0.0 sd   0.0 %p
+     wisconsin  n=20 rho=+0.200   gap mean   -0.5 sd   1.1 %p
+     texas      n=20 rho=-0.128   gap mean   -0.4 sd   1.0 %p
+     chameleon  n=20 rho=+0.021   gap mean    0.9 sd   1.2 %p
+     film       n=20 rho=-0.296   gap mean   -0.0 sd   0.1 %p
+     Cora       n=20 rho=+0.199   gap mean    0.0 sd   0.4 %p
+
+  [split + Strang] q_eff: pooled rho = -0.030 (n=100); mean within-dataset rho = +0.048, stratified permutation p = 0.3229; positive in 3/5 datasets
+     cornell    n=20 rho=-0.154   gap mean   -0.0 sd   0.0 %p
+     wisconsin  n=20 rho=+0.289   gap mean   -0.5 sd   1.1 %p
+     chameleon  n=20 rho=+0.159   gap mean    0.9 sd   1.2 %p
+     film       n=20 rho=-0.328   gap mean   -0.0 sd   0.1 %p
+     Cora       n=20 rho=+0.276   gap mean    0.0 sd   0.4 %p
+  [split + Strang] dataset-level rho(mean kappa_eff, mean gap) = -0.829 (n=6)
+
+== (3) paired Wilcoxon, Holm-corrected (consistency run) ==
+  Strang(ref) - Euler(ref)
+     cornell    diff  +54.1%p  wins 10/10  p 0.0020  Holm p 0.0234 (m=12)
+     wisconsin  diff  +26.9%p  wins 9/10  p 0.0076  Holm p 0.0458 (m=12)
+     texas      diff  +18.1%p  wins 10/10  p 0.0020  Holm p 0.0234 (m=12)
+     chameleon  diff   +0.1%p  wins 5/10  p 0.9219  Holm p 1.0000 (m=12)
+     film       diff   +5.5%p  wins 10/10  p 0.0020  Holm p 0.0234 (m=12)
+     Cora       diff   -0.1%p  wins 3/10  p 0.8332  Holm p 1.0000 (m=12)
+  Strang(ref) - Euler(reported)
+     cornell    diff  +11.4%p  wins 10/10  p 0.0020  Holm p 0.0234 (m=12)
+     wisconsin  diff   +2.5%p  wins 7/10  p 0.0645  Holm p 0.3223 (m=12)
+     texas      diff   -1.1%p  wins 6/10  p 0.9219  Holm p 1.0000 (m=12)
+     chameleon  diff   -2.1%p  wins 0/10  p 0.0020  Holm p 0.0234 (m=12)
+     film       diff   +5.3%p  wins 10/10  p 0.0020  Holm p 0.0234 (m=12)
+     Cora       diff   +0.1%p  wins 5/10  p 1.0000  Holm p 1.0000 (m=12)
+
+== (4) cost (consistency run, means over splits) ==
+  dataset    method           fwdNFE/ep  sec/ep   epochs  train sec
+  cornell    Euler                 1.0  0.0038     199      0.75
+  cornell    Euler+cons 0.1        2.0  0.0067     199      1.33
+  cornell    Euler+cons 1          2.0  0.0068     199      1.36
+  cornell    Strang                8.5  0.0067     199      1.32
+  wisconsin  Euler                 2.0  0.0040     199      0.80
+  wisconsin  Euler+cons 0.1        6.0  0.0279       1      0.03
+  wisconsin  Euler+cons 1          6.0  0.0275       1      0.03
+  wisconsin  Strang               11.8  0.0082     199      1.63
+  texas      Euler                 2.0  0.0027     199      0.55
+  texas      Euler+cons 0.1        5.0  0.0088       3      0.04
+  texas      Euler+cons 1          5.0  0.0164       2      0.04
+  texas      Strang               10.9  0.0060     199      1.20
+  chameleon  Euler                 2.0  0.0097     199      1.93
+  chameleon  Euler+cons 0.1        6.0  0.0245      27      0.67
+  chameleon  Euler+cons 1          6.0  0.0246      27      0.67
+  chameleon  Strang               27.2  0.0742     199     14.78
+  film       Euler                 1.0  0.0045     199      0.90
+  film       Euler+cons 0.1        2.0  0.0083     199      1.65
+  film       Euler+cons 1          2.0  0.0082     199      1.64
+  film       Strang                5.0  0.0067     199      1.33
+  Cora       Euler                 4.0  0.0055     195      1.07
+  Cora       Euler+cons 0.1       12.0  0.0124     192      2.38
+  Cora       Euler+cons 1         12.0  0.0122     120      1.48
+  Cora       Strang               51.2  0.0224     199      4.45
