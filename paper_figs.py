@@ -89,13 +89,16 @@ for tr, c, mk, lab in style:
     if rs:
         ax.scatter([max(r["kappa_eval"], 1e-2) for r in rs], [r["gap"] * 100 for r in rs],
                    s=11, c=c, marker=mk, alpha=0.75, label=lab, edgecolors="none")
-ax.axvline(2, color="#555", ls=":", lw=0.8)
-ax.text(2.3, ax.get_ylim()[1] * 0.92, "Euler stability\nlimit (κ=2)", fontsize=6, color="#555", va="top")
-ax.axhline(0, color="#aaa", lw=0.6)
+ax.axvline(2, color="#555", ls=":", lw=0.8, zorder=0)
+ax.axhline(0, color="#aaa", lw=0.6, zorder=0)
 ax.set_xscale("log")
+lo = min(r["gap"] for r in T) * 100
+ax.set_ylim(lo - 6, None)
+ax.text(2.4, lo - 4, "κ = 2 (Euler stability limit)", fontsize=6, color="#555", va="center")
 ax.set_xlabel("stiffness index κ of the learned dynamics")
 ax.set_ylabel("solver-transfer gap (%p)")
-ax.legend(fontsize=6, frameon=False, loc="upper left")
+ax.legend(fontsize=6, loc="upper left", frameon=True, framealpha=1, edgecolor="none", borderpad=0.3,
+          handletextpad=0.2, labelspacing=0.3)
 fig.tight_layout()
 for ext in ("png", "pdf"):
     fig.savefig(os.path.join(a.out, f"fig1_kappa_gap.{ext}"), dpi=300)
@@ -103,22 +106,29 @@ plt.close(fig)
 
 # Fig. 2
 cols = ["#d1495b", "#f0a35e", "#e8c547", "#2e8b57"]
-fig, axes = plt.subplots(1, 2, figsize=(6.8, 2.3))
+fig, axes = plt.subplots(1, 2, figsize=(6.8, 2.5))
 x = list(range(len(DS)))
 wd = 0.2
+handles = []
 for k, ((m, _), c) in enumerate(zip(METHODS, cols)):
     xs = [i + (k - 1.5) * wd for i in x]
     acc = [summ.get((ds, m), (math.nan,) * 4) for ds in DS]
-    axes[0].bar(xs, [v[0] for v in acc], wd, yerr=[v[1] for v in acc], color=c, label=m,
-                error_kw=dict(lw=0.5, capsize=1))
+    mean = [v[0] for v in acc]
+    lower = [min(v[1], v[0]) for v in acc]                 # error bar never goes below 0 %
+    upper = [min(v[1], 100 - v[0]) for v in acc]
+    hb = axes[0].bar(xs, mean, wd, yerr=[lower, upper], color=c, label=m, error_kw=dict(lw=0.5, capsize=1))
     axes[1].bar(xs, [v[2] for v in acc], wd, color=c)
-for ax, yl in zip(axes, ["precise test accuracy (%)", "solver-transfer gap (%p)"]):
+    handles.append(hb)
+axes[0].set_ylim(0, 100)
+for ax, yl, t in zip(axes, ["precise test accuracy (%)", "solver-transfer gap (%p)"], ["(a)", "(b)"]):
     ax.set_xticks(x)
-    ax.set_xticklabels([NAME[d] for d in DS], rotation=25)
+    ax.set_xticklabels([NAME[d] for d in DS], rotation=30, ha="right", rotation_mode="anchor")
     ax.set_ylabel(yl)
+    ax.set_title(t, loc="left", fontsize=8)
 axes[1].axhline(0, color="#888", lw=0.6)
-axes[0].legend(fontsize=6, frameon=False, ncol=2, loc="upper left")
-fig.tight_layout()
+fig.legend(handles, [m for m, _ in METHODS], loc="upper center", ncol=4, fontsize=7, frameon=False,
+           bbox_to_anchor=(0.5, 1.0), handlelength=1.2, columnspacing=1.2)
+fig.tight_layout(rect=(0, 0, 1, 0.9))
 for ext in ("png", "pdf"):
     fig.savefig(os.path.join(a.out, f"fig2_methods.{ext}"), dpi=300)
 plt.close(fig)
