@@ -1,7 +1,9 @@
 """
 paper_figs.py - export the paper tables (CSV) and figures (PNG/PDF) from the raw logs. Run from GREAD/src.
-  Fig. 1: stiffness index kappa vs solver-transfer gap (one point per trained model, transfer.jsonl)
-  Fig. 2: precise (reference) accuracy and gap per training method (consist_*.jsonl)
+  Fig. 1: stiffness index kappa_eff = kappa * min(h, T) / h (effective Euler step) vs solver-transfer gap
+          (one point per trained model, transfer.jsonl)
+  Fig. 2: precise (reference) accuracy and gap per training method (consist_*.jsonl); groups in which most
+          training runs diverged (loss NaN) are drawn hatched and labelled "div."
 Usage: python paper_figs.py --transfer ../results/transfer.jsonl --consist ../results/consist_1015_1731.jsonl --out ../results/paper
 """
 import argparse
@@ -10,6 +12,10 @@ import json
 import math
 import os
 import statistics as st
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from gread_params import best_params_dict  # noqa: E402
 
 p = argparse.ArgumentParser()
 p.add_argument("--transfer", default="../results/transfer.jsonl")
@@ -32,24 +38,28 @@ def sd(v):
 
 # ---------- table 1: one row per trained model (transfer.jsonl) ----------
 T = [r for r in load(a.transfer) if r.get("train_test_acc") is not None and r.get("gap") is not None]
+TT = {d: float(best_params_dict[d]["time"]) for d in DS}
+for r in T:
+    r["kappa_eff"] = r["kappa_eval"] * min(r["train_h"], TT[r["dataset"]]) / r["train_h"]
 with open(os.path.join(a.out, "table_transfer_splits.csv"), "w", newline="") as f:
     w = csv.writer(f)
-    w.writerow(["dataset", "train", "train_h", "split", "kappa", "q_h", "train_acc", "ref_acc", "gap"])
+    w.writerow(["dataset", "train", "train_h", "split", "kappa_eff", "q_h", "train_acc", "ref_acc", "gap"])
     for r in T:
-        w.writerow([r["dataset"], r["train"], r["train_h"], r["split"], f"{r['kappa_eval']:.4g}",
+        w.writerow([r["dataset"], r["train"], r["train_h"], r["split"], f"{r['kappa_eff']:.4g}",
                     "" if r.get("q_h_mean") is None else f"{r['q_h_mean']:.4g}",
                     f"{r['train_test_acc']*100:.2f}", f"{r['ref_acc']*100:.2f}", f"{r['gap']*100:.2f}"])
 
 # ---------- table 2: method summary (consist.jsonl) ----------
-C = [r for r in load(a.consist) if r.get("ref_acc") is not None]
+C_all = load(a.consist)
+C = [r for r in C_all if r.get("ref_acc") is not None]
 METHODS = [("Euler", lambda r: r["train"] == "euler" and r["lam"] == 0),
            ("Euler + consistency (λ=0.1)", lambda r: r["train"] == "euler" and r["lam"] == 0.1),
            ("Euler + consistency (λ=1)", lambda r: r["train"] == "euler" and r["lam"] == 1.0),
            ("Strang (ours)", lambda r: r["train"] == "strang")]
-summ = {}
+summ, fail = {}, {}
 with open(os.path.join(a.out, "table_methods.csv"), "w", newline="") as f:
     w = csv.writer(f)
-    w.writerow(["dataset", "method", "n", "train_acc", "ref_acc", "ref_acc_sd", "gap", "gap_sd", "sec_per_epoch", "ref_converged_diff_max"])
+    w.writerow(["dataset", "method", "n", "train_acc", "ref_acc", "ref_acc_sd", "gap", "gap_sd", "sec_per_epoch", "ref_converged_diff_max", "frac_diverged"])
     for ds in DS:
         for mname, cond in METHODS:
             rs = [r for r in C if r["dataset"] == ds and cond(r)]
@@ -60,9 +70,11 @@ with open(os.path.join(a.out, "table_methods.csv"), "w", newline="") as f:
             sec = [r["sec_per_epoch"] for r in rs if r.get("sec_per_epoch") is not None]
             rc = [r["ref_converged_diff"] for r in rs if r.get("ref_converged_diff") is not None]
             summ[(ds, mname)] = (st.mean(ref), sd(ref), st.mean(gap), sd(gap))
+            fail[(ds, mname)] = sum(r.get("status") != "ok" for r in rs) / len(rs)
             w.writerow([ds, mname, len(rs), f"{st.mean(r['train_test_acc'] for r in rs)*100:.1f}", f"{st.mean(ref):.1f}",
                         f"{sd(ref):.1f}", f"{st.mean(gap):.1f}", f"{sd(gap):.1f}",
-                        f"{st.mean(sec):.4f}" if sec else "", f"{max(rc):.4f}" if rc else ""])
+                        f"{st.mean(sec):.4f}" if sec else "", f"{max(rc):.4f}" if rc else "",
+                        f"{sum(r.get('status') != 'ok' for r in rs) / len(rs):.1f}"])
 
 print("\n== precise accuracy (gap) ==")
 print(f"{'dataset':10s} " + " | ".join(f"{m:28s}" for m, _ in METHODS))
@@ -70,7 +82,8 @@ for ds in DS:
     cells = []
     for m, _ in METHODS:
         v = summ.get((ds, m))
-        cells.append(f"{v[0]:5.1f}±{v[1]:4.1f} ({v[2]:+5.1f})".ljust(28) if v else "-".ljust(28))
+        txt = "-" if not v else ("diverged " + f"{fail[(ds, m)]*10:.0f}/10" if fail[(ds, m)] >= 0.5 else f"{v[0]:5.1f}±{v[1]:4.1f} ({v[2]:+5.1f})")
+        cells.append(txt.ljust(28))
     print(f"{ds:10s} " + " | ".join(cells))
 
 # ---------- figures ----------
@@ -87,7 +100,7 @@ style = [("euler", "#d1495b", "o", "Euler (h=1, 0.5)"), ("rk4", "#8a8a8a", "s", 
 for tr, c, mk, lab in style:
     rs = [r for r in T if r["train"] == tr]
     if rs:
-        ax.scatter([max(r["kappa_eval"], 1e-2) for r in rs], [r["gap"] * 100 for r in rs],
+        ax.scatter([max(r["kappa_eff"], 1e-2) for r in rs], [r["gap"] * 100 for r in rs],
                    s=11, c=c, marker=mk, alpha=0.75, label=lab, edgecolors="none")
 ax.axvline(2, color="#555", ls=":", lw=0.8, zorder=0)
 ax.axhline(0, color="#aaa", lw=0.6, zorder=0)
@@ -95,7 +108,7 @@ ax.set_xscale("log")
 lo = min(r["gap"] for r in T) * 100
 ax.set_ylim(lo - 6, None)
 ax.text(2.4, lo - 4, "κ = 2 (Euler stability limit)", fontsize=6, color="#555", va="center")
-ax.set_xlabel("stiffness index κ of the learned dynamics")
+ax.set_xlabel("Euler instability index κ (learned weights)")
 ax.set_ylabel("solver-transfer gap (%p)")
 ax.legend(fontsize=6, loc="upper left", frameon=True, framealpha=1, edgecolor="none", borderpad=0.3,
           handletextpad=0.2, labelspacing=0.3)
@@ -116,8 +129,15 @@ for k, ((m, _), c) in enumerate(zip(METHODS, cols)):
     mean = [v[0] for v in acc]
     lower = [min(v[1], v[0]) for v in acc]                 # error bar never goes below 0 %
     upper = [min(v[1], 100 - v[0]) for v in acc]
-    hb = axes[0].bar(xs, mean, wd, yerr=[lower, upper], color=c, label=m, error_kw=dict(lw=0.5, capsize=1))
-    axes[1].bar(xs, [v[2] for v in acc], wd, color=c)
+    div = [fail.get((ds, m), 0) >= 0.5 for ds in DS]
+    hb = axes[0].bar([xx for xx, dv in zip(xs, div) if not dv], [mm for mm, dv in zip(mean, div) if not dv], wd,
+                     yerr=[[lo for lo, dv in zip(lower, div) if not dv], [up for up, dv in zip(upper, div) if not dv]],
+                     color=c, label=m, error_kw=dict(lw=0.5, capsize=1))
+    axes[1].bar([xx for xx, dv in zip(xs, div) if not dv], [v[2] for v, dv in zip(acc, div) if not dv], wd, color=c)
+    for xx, dv in zip(xs, div):
+        if dv:
+            axes[0].bar(xx, 6, wd, color="white", edgecolor=c, hatch="////", lw=0.6)
+            axes[0].text(xx, 7, "div.", rotation=90, fontsize=5, ha="center", va="bottom", color="#444")
     handles.append(hb)
 axes[0].set_ylim(0, 100)
 for ax, yl, t in zip(axes, ["precise test accuracy (%)", "solver-transfer gap (%p)"], ["(a)", "(b)"]):
