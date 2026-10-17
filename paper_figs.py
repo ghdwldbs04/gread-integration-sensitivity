@@ -107,10 +107,10 @@ ax.axhline(0, color="#aaa", lw=0.6, zorder=0)
 ax.set_xscale("log")
 lo = min(r["gap"] for r in T) * 100
 ax.set_ylim(lo - 6, None)
-ax.text(2.4, lo - 4, "κ = 2 (Euler stability limit)", fontsize=6, color="#555", va="center")
+ax.text(2.4, lo - 4, "κ = 2 (reaction-only Euler bound)", fontsize=6, color="#555", va="center")
 ax.set_xlabel("Euler instability index κ (learned weights)")
 ax.set_ylabel("solver-transfer gap (%p)")
-ax.legend(fontsize=6, loc="upper left", frameon=True, framealpha=1, edgecolor="none", borderpad=0.3,
+ax.legend(fontsize=7, loc="upper left", frameon=True, framealpha=1, edgecolor="none", borderpad=0.3,
           handletextpad=0.2, labelspacing=0.3)
 fig.tight_layout()
 for ext in ("png", "pdf"):
